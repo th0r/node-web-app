@@ -1,0 +1,29 @@
+{% import 'macros/assets.html' as include %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ title || app.name }}{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% block head %}
+
+        {% block scripts %}
+            {{ include.js('vendor/jquery') }}
+            {% for script in scripts %}
+                {{ include.js(script) }}
+            {% endfor %}
+        {% endblock %}
+
+        {% block styles %}
+            {{ include.css('styles') }}
+            {% for style in styles %}
+                {{ include.css(style) }}
+            {% endfor %}
+        {% endblock %}
+
+    {% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
