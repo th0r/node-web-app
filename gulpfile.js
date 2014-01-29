@@ -31,15 +31,12 @@ var dest = {
 
 gulp.task('default', ['server']);
 
-gulp.task('server', ['scripts'], function (cb) {
-    var firstStart = true;
-
+gulp.task('server', ['scripts'], function () {
     if (isProd) {
         process.env.NODE_ENV = 'production';
         spawn('node', ['.'], {
             stdio: 'inherit'
         });
-        cb();
     } else {
         gulp.watch(src.scripts.app, ['scripts.app']);
         gulp.watch(src.scripts.vendor, ['scripts.vendor']);
@@ -54,13 +51,6 @@ gulp.task('server', ['scripts'], function (cb) {
                     'public',
                     'vendor'
                 ]
-            })
-            .on('start', function () {
-                // 'start' event is also called on restart
-                if (firstStart) {
-                    firstStart = false;
-                    cb();
-                }
             })
             .on('restart', function (files) {
                 var changedFiles = files
