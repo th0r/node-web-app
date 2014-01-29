@@ -1,7 +1,8 @@
+var pkg = require('./package.json');
 var path = require('path');
 var express = require('express');
 var swig = require('swig');
-var pkg = require('./package.json');
+var stylus = require('stylus');
 var app = express();
 var env = process.env.NODE_ENV;
 var dev = (env === 'development');
@@ -21,13 +22,6 @@ swig.setDefaults({
     cache: dev ? null : 'memory'
 });
 
-/*var tmplFile = __dirname + '/app/templates/index.html';
-var src = require('fs').readFileSync(tmplFile, 'utf8');
-var tmplSrc = swig.precompile(src, {filename: tmplFile}).tpl.toString();
-
-console.log(tmplSrc);*/
-//console.log(util.inspect(tmpl, {depth: null}));
-
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/app/templates');
@@ -37,9 +31,11 @@ app.set('view cache', false);
 // ==================================== Middlewares ====================================
 app.use(express.logger());
 app.use(express.compress());
+
+// ==================================== Static serving ====================================
 app.use(express.static(__dirname + '/public'));
 
-// Add routes
+// ==================================== Router ====================================
 require('./app/routes.js')(app);
 
 app

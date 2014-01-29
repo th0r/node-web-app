@@ -15,7 +15,7 @@
         {% endblock %}
 
         {% block styles %}
-            {{ include.css('styles') }}
+            {{ include.css('app/styles') }}
             {% for style in styles %}
                 {{ include.css(style) }}
             {% endfor %}

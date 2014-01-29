@@ -7,39 +7,62 @@ var gulpif = require('gulp-if');
 var rename = require('gulp-rename');
 var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
+var browserify = require('gulp-browserify');
+var exposify = require('exposify');
+var stylus = require('gulp-stylus');
+var csso = require('gulp-csso');
 var nodemon = require('nodemon');
 var isProd = util.env.production;
 
 var src = {
     scripts: {
         app: [
-            'app/client/**/*.js'
+            'app/pages/**/*.js'
         ],
         vendor: [
             'vendor/jquery/' + (isProd ? 'jquery.min.js' : 'jquery.js')
         ]
+    },
+    styles: {
+        app: {
+            main: ['app/styles/*.styl'],
+            all: ['app/styles/**/*.styl']
+        },
+        vendor: []
     }
 };
 
 var dest = {
     scripts: {
-        root: 'public/js',
         app: 'public/js/app',
         vendor: 'public/js/vendor'
+    },
+    styles: {
+        app: 'public/css/app',
+        vendor: 'public/css/vendor'
     }
 };
 
+// ==================================== Default ====================================
+
 gulp.task('default', ['server']);
 
-gulp.task('server', ['scripts'], function () {
+// ==================================== Server ====================================
+
+gulp.task('server', ['build'], function () {
     if (isProd) {
         process.env.NODE_ENV = 'production';
         spawn('node', ['.'], {
             stdio: 'inherit'
         });
     } else {
+        // Watching for scripts
         gulp.watch(src.scripts.app, ['scripts.app']);
         gulp.watch(src.scripts.vendor, ['scripts.vendor']);
+
+        // Watching for styles
+        gulp.watch(src.styles.app.all, ['styles.app']);
+        gulp.watch(src.styles.vendor, ['styles.vendor']);
 
         nodemon(
             {
@@ -47,7 +70,7 @@ gulp.task('server', ['scripts'], function () {
                 ext: 'js json',
                 ignore: [
                     'gulpfile.js',
-                    'app/client',
+                    'app/pages',
                     'public',
                     'vendor'
                 ]
@@ -64,11 +87,23 @@ gulp.task('server', ['scripts'], function () {
     }
 });
 
+// ==================================== Build ====================================
+
+gulp.task('build', ['scripts', 'styles']);
+
+// ==================================== Scripts ====================================
+
 gulp.task('scripts', ['scripts.app', 'scripts.vendor']);
 
 gulp.task('scripts.app', ['clean.scripts.app'], function () {
+    exposify.config = { jquery: '$' };
+
     return gulp
         .src(src.scripts.app)
+        .pipe(browserify({
+            transform: [exposify],
+            debug: !isProd
+        }))
         .pipe(gulpif(isProd, uglify()))
         .pipe(gulp.dest(dest.scripts.app));
 });
@@ -84,18 +119,58 @@ gulp.task('scripts.vendor', ['clean.scripts.vendor'], function () {
 
 gulp.task('clean.scripts.app', function () {
     return gulp
-        .src(dest.scripts.app)
+        .src(dest.scripts.app, {
+            read: false
+        })
         .pipe(clean());
 });
 
 gulp.task('clean.scripts.vendor', function () {
     return gulp
-        .src(dest.scripts.vendor)
+        .src(dest.scripts.vendor, {
+            read: false
+        })
         .pipe(clean());
 });
 
-gulp.task('clean.scripts', function () {
+// ==================================== Styles ====================================
+
+gulp.task('styles', ['styles.app', 'styles.vendor']);
+
+gulp.task('styles.app', ['clean.styles.app'], function () {
     return gulp
-        .src(dest.scripts.root)
+        .src(src.styles.app.main)
+        .pipe(stylus({
+            use: ['nib'],
+            set: isProd ? null : ['firebug', 'linenos']
+        }))
+        .pipe(gulpif(isProd, csso()))
+        .pipe(gulp.dest(dest.styles.app));
+});
+
+gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
+    var files = src.styles.vendor;
+
+    if (files.length) {
+        return gulp
+            .src(files)
+            .pipe(gulpif(isProd, csso()))
+            .pipe(gulp.dest(dest.styles.vendor));
+    }
+});
+
+gulp.task('clean.styles.app', function () {
+    return gulp
+        .src(dest.styles.app, {
+            read: false
+        })
+        .pipe(clean());
+});
+
+gulp.task('clean.styles.vendor', function () {
+    return gulp
+        .src(dest.styles.vendor, {
+            read: false
+        })
         .pipe(clean());
 });

@@ -17,14 +17,19 @@
     "express": "~3.4.8"
   },
   "devDependencies": {
+    "stylus": "~0.42.1",
+    "nodemon": "~1.0.13",
     "gulp": "~3.5.0",
     "gulp-util": "~2.2.13",
     "gulp-nodemon": "~0.1.2",
-    "nodemon": "~1.0.13",
     "gulp-if": "0.0.4",
     "gulp-rename": "~0.2.2",
     "gulp-rev": "~0.2.1",
     "gulp-clean": "~0.2.4",
-    "gulp-uglify": "~0.2.0"
+    "gulp-uglify": "~0.2.0",
+    "gulp-stylus": "0.0.11",
+    "gulp-csso": "~0.2.3",
+    "gulp-browserify": "~0.4.0",
+    "exposify": "~0.1.3"
   }
 }
