@@ -1,16 +1,17 @@
 module.exports = function (req, res) {
-
-    console.log(req.path);
-    if (req.accepts('html')) {
-        console.log('html');
-        res.render('404');
-    } else if (req.accepts('json')) {
-        res.send({
-            error: 'Not found'
+    res
+        .status(404)
+        .format({
+            'html': function () {
+                res.render('404');
+            },
+            'json': function () {
+                res.send({
+                    error: 'Not found'
+                });
+            },
+            'default': function () {
+                res.send('Not found');
+            }
         });
-    } else {
-        console.log('text');
-        res.send('Not found');
-    }
-
 };
