@@ -1,8 +1,10 @@
 var pkg = require('./package.json');
+var secrets = require('./configs/secrets.json');
 var path = require('path');
 var express = require('express');
 var swig = require('swig');
 var stylus = require('stylus');
+var passport = require('passport');
 var app = express();
 var env = app.get('env');
 var isProd = (env === 'production');
@@ -35,8 +37,23 @@ if (isProd) {
     app.use(express.compress());
 }
 
-// ==================================== Static serving ====================================
 app.use('/static', express.static(__dirname + '/public'));
+app.use(express.cookieParser());
+// "connect.urlencoded()" + "connect.json()" replaces "bodyParser" 
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(express.session({
+    secret: secrets.sessionKey,
+    key: 'sid',
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        // One year cookie
+        maxAge: 365 * 24 * 60 * 60 * 1000
+    }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // ==================================== Router ====================================
 require('./app/routes.js')(app);
