@@ -5,8 +5,8 @@ var swig = require('swig');
 var stylus = require('stylus');
 var app = express();
 var env = process.env.NODE_ENV;
-var dev = (env === 'development');
-var port = process.env.PORT || (dev ? 3000 : 80);
+var isProd = (env === 'production');
+var port = process.env.PORT || (isProd ? 80 : 3000);
 var util = require('util');
 
 // ==================================== Template engine ====================================
@@ -19,7 +19,7 @@ swig.setDefaults({
             name: pkg.name
         }
     },
-    cache: dev ? null : 'memory'
+    cache: isProd ? 'memory' : null
 });
 
 app.engine('html', swig.renderFile);
