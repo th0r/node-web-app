@@ -4,17 +4,16 @@ var express = require('express');
 var swig = require('swig');
 var stylus = require('stylus');
 var app = express();
-var env = process.env.NODE_ENV;
+var env = app.get('env');
 var isProd = (env === 'production');
 var port = process.env.PORT || (isProd ? 80 : 3000);
-var util = require('util');
 
 // ==================================== Template engine ====================================
 swig.setDefaults({
     loader: swig.loaders.fs(__dirname + '/app/templates'),
     locals: {
-        SCRIPTS_PATH: '/js',
-        STYLES_PATH: '/css',
+        SCRIPTS_PATH: '/static/js',
+        STYLES_PATH: '/static/css',
         app: {
             name: pkg.name
         }
@@ -30,10 +29,12 @@ app.set('view cache', false);
 
 // ==================================== Middlewares ====================================
 app.use(express.logger());
+
+// GZip compression. Better to do with "nginx" or something else.
 app.use(express.compress());
 
 // ==================================== Static serving ====================================
-app.use(express.static(__dirname + '/public'));
+app.use('/static', express.static(__dirname + '/public'));
 
 // ==================================== Router ====================================
 require('./app/routes.js')(app);

@@ -7,6 +7,7 @@ var gulpif = require('gulp-if');
 var rename = require('gulp-rename');
 var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
+var gzip = require('gulp-zopfli');
 var browserify = require('gulp-browserify');
 var exposify = require('exposify');
 var stylus = require('gulp-stylus');
@@ -105,7 +106,9 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             debug: !isProd
         }))
         .pipe(gulpif(isProd, uglify()))
-        .pipe(gulp.dest(dest.scripts.app));
+        .pipe(gulp.dest(dest.scripts.app))
+        .pipe(gulpif(isProd, gzip()))
+        .pipe(gulpif(isProd, gulp.dest(dest.scripts.app)));
 });
 
 gulp.task('scripts.vendor', ['clean.scripts.vendor'], function () {
@@ -114,7 +117,9 @@ gulp.task('scripts.vendor', ['clean.scripts.vendor'], function () {
         .pipe(gulpif(isProd, rename(function (dir, base, ext) {
             return base.replace(/\.min$/, '') + ext;
         })))
-        .pipe(gulp.dest(dest.scripts.vendor));
+        .pipe(gulp.dest(dest.scripts.vendor))
+        .pipe(gulpif(isProd, gzip()))
+        .pipe(gulpif(isProd, gulp.dest(dest.scripts.vendor)));
 });
 
 gulp.task('clean.scripts.app', function () {
@@ -145,7 +150,9 @@ gulp.task('styles.app', ['clean.styles.app'], function () {
             set: isProd ? null : ['firebug', 'linenos']
         }))
         .pipe(gulpif(isProd, csso()))
-        .pipe(gulp.dest(dest.styles.app));
+        .pipe(gulp.dest(dest.styles.app))
+        .pipe(gulpif(isProd, gzip()))
+        .pipe(gulpif(isProd, gulp.dest(dest.styles.app)));
 });
 
 gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
@@ -155,7 +162,9 @@ gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
         return gulp
             .src(files)
             .pipe(gulpif(isProd, csso()))
-            .pipe(gulp.dest(dest.styles.vendor));
+            .pipe(gulp.dest(dest.styles.vendor))
+            .pipe(gulpif(isProd, gzip()))
+            .pipe(gulpif(isProd, gulp.dest(dest.styles.vendor)));
     }
 });
 

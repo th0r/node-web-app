@@ -30,6 +30,7 @@
     "gulp-stylus": "0.0.11",
     "gulp-csso": "~0.2.3",
     "gulp-browserify": "~0.4.0",
-    "exposify": "~0.1.3"
+    "exposify": "~0.1.3",
+    "gulp-zopfli": "0.0.1"
   }
 }
