@@ -1,3 +1,3 @@
 module.exports = function () {
-    alert('suka!!!!');
+    console.log('Test module called');
 };

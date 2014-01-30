@@ -31,7 +31,9 @@ app.set('view cache', false);
 app.use(express.logger());
 
 // GZip compression. Better to do with "nginx" or something else.
-app.use(express.compress());
+if (isProd) {
+    app.use(express.compress());
+}
 
 // ==================================== Static serving ====================================
 app.use('/static', express.static(__dirname + '/public'));

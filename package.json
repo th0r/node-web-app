@@ -4,7 +4,7 @@
   "author": "th0r <grunin.ya@ya.ru>",
   "description": "",
   "private": true,
-  "main": "app.js",
+  "main": "server.js",
   "engines": {
     "node": ">= 0.11"
   },

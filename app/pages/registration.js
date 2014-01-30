@@ -1,7 +1,5 @@
 var $ = require('jquery');
 
 $(function () {
-    
-    alert('register!');
-    
+    console.log('Registration script');
 });
