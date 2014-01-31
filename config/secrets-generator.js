@@ -8,6 +8,8 @@ var generate = require('password-generator');
 var secretsFilePath = path.resolve(__dirname, SECRETS_FILE);
 var prompt;
 
+module.exports = generateSecretsFile;
+
 function generateSecretsFile() {
     var secretFileContent = {};
 
@@ -16,17 +18,21 @@ function generateSecretsFile() {
     });
     fs.writeFileSync(secretsFilePath, JSON.stringify(secretFileContent, null, '  '));
     console.log('Secrets file has been successfully generated ("' + secretsFilePath + '")');
+
+    return secretFileContent;
 }
 
-if (fs.existsSync(secretsFilePath)) {
-    console.log('Secrets file is already exists ("' + secretsFilePath + '")');
-    prompt = readline.createInterface(process.stdin, process.stdout);
-    prompt.question('Do you want to overwrite it? [y/N]: ', function(answer) {
-        if (answer.toLowerCase() === 'y') {
-            generateSecretsFile();
-        }
-        prompt.close();
-    });
-} else {
-    generateSecretsFile();
+if (require.main === module) {
+    if (fs.existsSync(secretsFilePath)) {
+        console.log('Secrets file is already exists ("' + secretsFilePath + '")');
+        prompt = readline.createInterface(process.stdin, process.stdout);
+        prompt.question('Do you want to overwrite it? [y/N]: ', function(answer) {
+            if (answer.toLowerCase() === 'y') {
+                generateSecretsFile();
+            }
+            prompt.close();
+        });
+    } else {
+        generateSecretsFile();
+    }
 }

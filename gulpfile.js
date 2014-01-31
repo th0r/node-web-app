@@ -18,7 +18,7 @@ var isProd = util.env.production;
 var src = {
     scripts: {
         app: [
-            'app/pages/**/*.js'
+            'app/views/**/*.js'
         ],
         vendor: [
             'vendor/jquery/' + (isProd ? 'jquery.min.js' : 'jquery.js')

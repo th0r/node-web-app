@@ -1,0 +1,7 @@
+{% macro js(src) %}
+<script src="{{ SCRIPTS_ROOT }}/{{ src }}.js"></script>
+{% endmacro %}
+
+{% macro css(src) %}
+<link rel="stylesheet" type="text/css" href="{{ STYLES_ROOT }}/{{ src }}.css" media="all">
+{% endmacro %}

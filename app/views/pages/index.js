@@ -1,5 +1,5 @@
 var $ = require('jquery');
 
 $(function () {
-    require('../utils/test')();
+//    require('../../utils/test')();
 });
