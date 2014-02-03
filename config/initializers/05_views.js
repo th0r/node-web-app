@@ -1,9 +1,9 @@
-var path = require('path'),
-    swig = require('swig');
+var path = require('path');
+var swig = require('swig');
+var viewsDir = path.resolve(__dirname, '../../app/views');
 
 module.exports = function () {
-    var isProd = (this.get('env') === 'production'),
-        viewsDir = path.resolve(__dirname, '../../app/views');
+    var isProd = (this.get('env') === 'production');
 
     swig.setDefaults({
         loader: swig.loaders.fs(viewsDir),

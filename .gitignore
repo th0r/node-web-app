@@ -3,4 +3,5 @@
 /public/css
 node_modules/
 
+/config/db.json
 /config/secrets.json

@@ -1,5 +1,4 @@
 module.exports = function () {
-
     var secrets;
 
     try {
@@ -20,5 +19,4 @@ module.exports = function () {
     }
 
     this.set('secrets', secrets);
-
 };

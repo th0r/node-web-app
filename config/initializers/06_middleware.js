@@ -17,7 +17,7 @@ module.exports = function () {
 
     this.use('/static', express.static(publicDir));
     this.use(express.cookieParser());
-    // "connect.urlencoded()" + "connect.json()" replaces "bodyParser"
+    // "connect.urlencoded" + "connect.json" replaces "bodyParser"
     this.use(express.urlencoded());
     this.use(express.json());
     this.use(express.session({
@@ -26,8 +26,8 @@ module.exports = function () {
         cookie: {
             path: '/',
             httpOnly: true,
-            // One year cookie
-            maxAge: 365 * 24 * 60 * 60 * 1000
+            // Two weeks cookie
+            maxAge: 14 * 24 * 60 * 60 * 1000
         },
         store: this.get('session store')
     }));
