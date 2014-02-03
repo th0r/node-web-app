@@ -7,8 +7,8 @@
 // information.
 module.exports = function routes() {
 
-    this.root('pages#index');
-    this.get('/registration', 'user#register');
+    this.root('pages#index', { as: 'index' });
+    this.get('/registration', 'user#register', { as: 'registration' });
     this.post('/registration', 'user#create');
 
 };

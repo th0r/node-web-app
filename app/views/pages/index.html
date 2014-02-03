@@ -1,5 +1,5 @@
 {% extends 'layouts/default.html' %}
 
 {% block content %}
-<a href="/registration">Registration</a>
+<a href="{{ registrationPath() | e }}">Registration</a>
 {% endblock %}

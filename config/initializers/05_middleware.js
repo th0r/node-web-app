@@ -28,7 +28,8 @@ module.exports = function () {
             httpOnly: true,
             // One year cookie
             maxAge: 365 * 24 * 60 * 60 * 1000
-        }
+        },
+        store: this.get('session store')
     }));
     this.use(passport.initialize());
     this.use(passport.session());
