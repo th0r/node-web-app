@@ -8,7 +8,15 @@ module.exports = function (done) {
 
     mongoose.connect(db.host, db.database, db.port, {
         user: db.username,
-        pass: db.password
+        pass: db.password,
+        server: {
+            socketOptions: {
+                keepAlive: 1
+            }
+        },
+        db: {
+            native_parser: true
+        }
     }, function (err) {
         if (err) {
             console.log('Error connecting to MongoDB:', err);
