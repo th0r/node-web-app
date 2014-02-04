@@ -91,7 +91,7 @@ gulp.task('server', ['build'], function () {
             .on('restart', function (files) {
                 var changedFiles = files
                     .map(function (file) {
-                        return '"' + path.relative('app', file) + '"';
+                        return '"' + path.relative(__dirname, file) + '"';
                     })
                     .join(', ');
 

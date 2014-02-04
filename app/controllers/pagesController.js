@@ -4,6 +4,7 @@ var pagesController = new Controller();
 
 pagesController.index = function () {
     this.scripts = ['app/pages/index'];
+    this.user = this.req.user;
     this.render();
 };
 

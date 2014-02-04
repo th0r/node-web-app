@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongooseTypes = require('mongoose-types');
 
 module.exports = function (done) {
     var self = this;
@@ -6,6 +7,10 @@ module.exports = function (done) {
 
     this.datastore(require('locomotive-mongoose'));
 
+    // Add "Email" and "Url" mongoose types
+    mongooseTypes.loadTypes(mongoose);
+
+    // Connect to the DB
     mongoose.connect(db.host, db.database, db.port, {
         user: db.username,
         pass: db.password,

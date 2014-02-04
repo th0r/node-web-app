@@ -1,6 +1,7 @@
 var path = require('path');
 var express = require('express');
 var passport = require('passport');
+var flash = require('connect-flash');
 var publicDir = path.resolve(__dirname, '../../public');
 
 module.exports = function () {
@@ -31,10 +32,19 @@ module.exports = function () {
         },
         store: this.get('session store')
     }));
+    this.use(flash());
     this.use(passport.initialize());
     this.use(passport.session());
     this.use(this.router);
     // 404 handler
     this.use(require('../../app/controllers/404'));
-    this.use(express.errorHandler());
+    // Error handler
+    if (isProd) {
+        this.use(express.errorHandler());
+    } else {
+        this.use(express.errorHandler({
+            dumpExceptions: true,
+            showStack: true
+        }));
+    }
 };
