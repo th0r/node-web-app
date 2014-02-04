@@ -51,6 +51,8 @@ gulp.task('default', ['server']);
 // ==================================== Server ====================================
 
 gulp.task('server', ['build'], function () {
+    var nodeDebugArgs;
+
     if (isProd) {
         process.env.NODE_ENV = 'production';
         spawn('node', ['.'], {
@@ -65,11 +67,21 @@ gulp.task('server', ['build'], function () {
         gulp.watch(src.styles.app.all, ['styles.app']);
         gulp.watch(src.styles.vendor, ['styles.vendor']);
 
+        // Making node debug arguments
+        if (util.env['debug-brk']) {
+            nodeDebugArgs = ['--debug-brk'];
+        } else if (util.env.debug) {
+            nodeDebugArgs = ['--debug'];
+        }
+
         nodemon(
             {
                 script: pkg.main,
+                nodeArgs: nodeDebugArgs,
                 ext: 'js json',
                 ignore: [
+                    '.git',
+                    'node_modules/**/node_modules',
                     'gulpfile.js',
                     'app/pages',
                     'public',
