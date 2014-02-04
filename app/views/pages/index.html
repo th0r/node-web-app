@@ -1,0 +1,14 @@
+{% extends 'layouts/default.html' %}
+
+{% block content %}
+
+{% if user %}
+    <div>Current user email is: {{ user.email }}</div>
+    <a href="{{ logoutPath() | e }}">Logout</a>
+{% else %}
+    <div>There is no current user</div>
+    <a href="{{ loginPath() | e }}">Login</a>
+    <a href="{{ registrationPath() | e }}">Registration</a>
+{% endif %}
+
+{% endblock %}
