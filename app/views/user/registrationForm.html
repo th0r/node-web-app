@@ -1,20 +1,27 @@
 {% extends 'layouts/default.html' %}
 
 {% block content %}
-<form class="{% if error %}error{% endif %}" method="post" action="{{ registrationPath() | e }}" novalidate>
+<form id="registrationForm" method="post" action="{{ registrationPath() | e }}" novalidate
+      v-class="error: !!error"
+      v-on="submit: submit">
     <div>
         <label for="email">Email</label>
-        <input id="email" type="email" name="email" value="{{ email }}">
+        <input id="email" type="email" name="email"
+               v-model="form.email">
     </div>
     <div>
         <label for="password">Password</label>
-        <input id="password" type="password" name="password">
+        <input id="password" type="password" name="password"
+               v-model="form.password">
     </div>
-    {% if error %}
-        <div class="error">{{ error }}</div>
-    {% endif %}
+    <div class="error" v-if="error" v-text="error"></div>
     <div>
-        <button>Register</button>
+        <button v-attr="disabled: !submittionAllowed">Register</button>
     </div>
 </form>
+<script>
+    App.registrationForm = {
+        el: '#registrationForm'
+    };
+</script>
 {% endblock %}

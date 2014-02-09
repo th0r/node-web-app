@@ -8,7 +8,9 @@
     {% block head %}
 
         {% block scripts %}
+            <script>App = {};</script>
             {{ include.js('vendor/jquery') }}
+            {{ include.js('vendor/vue') }}
             {% for script in scripts %}
                 {{ include.js(script) }}
             {% endfor %}

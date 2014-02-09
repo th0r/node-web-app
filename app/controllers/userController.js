@@ -8,6 +8,7 @@ var userController = new Controller();
 userController.before(['loginForm', 'login', 'registrationForm', 'register'], loggedOut());
 
 userController.loginForm = function () {
+    this.scripts = ['app/user/login'];
     this.render('loginForm');
 };
 
@@ -21,22 +22,23 @@ userController.login = function () {
     var req = this.req;
     var body = req.body;
 
-    passport._strategy('local')._verify(body.email, body.password, function (err, user, info) {
+    passport._strategy('local')._verify(body.email || '', body.password || '', function (err, user, info) {
         if (err) {
             return self.next(err);
         }
         if (!user) {
-            self.email = body.email;
-            self.error = info.message || 'No such user';
-
-            return self.loginForm();
+            return self.res.json({
+                error: info.message || 'No such user'
+            });
         }
 
         req.login(user, function (err) {
             if (err) {
                 return self.next(err);
             }
-            self.redirect(self.indexPath());
+            return self.res.json({
+                redirectTo: self.indexPath()
+            });
         });
     });
 };
@@ -55,16 +57,18 @@ userController.register = function () {
         email: body.email
     }, body.password, function (err, user) {
         if (err) {
-            self.email = body.email;
-            self.error = err.message;
-
-            return self.registrationForm();
+            return self.res.json({
+                error: err.message
+            });
         }
         req.login(user, function (err) {
             if (err) {
                 return self.next(err);
             }
-            self.redirect(self.indexPath());
+
+            return self.res.json({
+                redirectTo: self.indexPath()
+            });
         });
     });
 };

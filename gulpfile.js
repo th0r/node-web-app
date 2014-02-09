@@ -17,11 +17,13 @@ var isProd = util.env.production;
 
 var src = {
     scripts: {
-        app: [
-            'app/views/**/*.js'
-        ],
+        app: {
+            main: ['app/views/**/*-page.js'],
+            all: ['app/views/**/*.js']
+        },
         vendor: [
-            'vendor/jquery/' + (isProd ? 'jquery.min.js' : 'jquery.js')
+            'node_modules/jquery/dist/' + (isProd ? 'jquery.min.js' : 'jquery.js'),
+            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js')
         ]
     },
     styles: {
@@ -60,7 +62,7 @@ gulp.task('server', ['build'], function () {
         });
     } else {
         // Watching for scripts
-        gulp.watch(src.scripts.app, ['scripts.app']);
+        gulp.watch(src.scripts.app.all, ['scripts.app']);
         gulp.watch(src.scripts.vendor, ['scripts.vendor']);
 
         // Watching for styles
@@ -109,13 +111,19 @@ gulp.task('build', ['scripts', 'styles']);
 gulp.task('scripts', ['scripts.app', 'scripts.vendor']);
 
 gulp.task('scripts.app', ['clean.scripts.app'], function () {
-    exposify.config = { jquery: '$' };
+    exposify.config = {
+        jquery: '$',
+        vue: 'Vue'
+    };
 
     return gulp
-        .src(src.scripts.app)
+        .src(src.scripts.app.main)
         .pipe(browserify({
             transform: [exposify],
             debug: !isProd
+        }))
+        .pipe(rename(function (dir, base, ext) {
+            return base.replace(/-page$/, '') + ext;
         }))
         .pipe(gulpif(isProd, uglify()))
         .pipe(gulp.dest(dest.scripts.app))
