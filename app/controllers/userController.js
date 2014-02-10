@@ -53,9 +53,7 @@ userController.register = function () {
     var req = this.req;
     var body = req.body;
 
-    User.register({
-        email: body.email
-    }, body.password, function (err, user) {
+    User.register(body.email, body.password, function (err, user) {
         if (err) {
             return self.res.json({
                 error: err.message
