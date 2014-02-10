@@ -122,8 +122,8 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             transform: [exposify],
             debug: !isProd
         }))
-        .pipe(rename(function (dir, base, ext) {
-            return base.replace(/-page$/, '') + ext;
+        .pipe(rename(function (path) {
+            path.basename = path.basename.replace(/-page$/, '');
         }))
         .pipe(gulpif(isProd, uglify()))
         .pipe(gulp.dest(dest.scripts.app))
@@ -134,8 +134,8 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
 gulp.task('scripts.vendor', ['clean.scripts.vendor'], function () {
     return gulp.src(src.scripts.vendor)
         // Removing ".min" part from filenames in production
-        .pipe(gulpif(isProd, rename(function (dir, base, ext) {
-            return base.replace(/\.min$/, '') + ext;
+        .pipe(gulpif(isProd, rename(function (path) {
+            path.basename = path.basename.replace(/\.min$/, '');
         })))
         .pipe(gulp.dest(dest.scripts.vendor))
         .pipe(gulpif(isProd, gzip()))
