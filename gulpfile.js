@@ -18,7 +18,7 @@ var isProd = util.env.production;
 var src = {
     scripts: {
         app: {
-            main: ['app/views/**/*-page.js'],
+            main: ['app/views/**/*Page.js'],
             all: ['app/views/**/*.js']
         },
         vendor: [
@@ -123,7 +123,7 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             debug: !isProd
         }))
         .pipe(rename(function (path) {
-            path.basename = path.basename.replace(/-page$/, '');
+            path.basename = path.basename.replace(/Page$/, '');
         }))
         .pipe(gulpif(isProd, uglify()))
         .pipe(gulp.dest(dest.scripts.app))

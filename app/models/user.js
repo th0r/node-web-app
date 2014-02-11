@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var ValidationError = mongoose.Error.ValidationError;
 var Schema = mongoose.Schema;
 var Types = Schema.Types;
 var passportLocal = require('passport-local');

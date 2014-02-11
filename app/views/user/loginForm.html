@@ -2,19 +2,22 @@
 
 {% block content %}
 <form id="loginForm" method="post" action="{{ loginPath() | e }}" novalidate
-      v-class="error: !!error"
       v-on="submit: submit">
     <div>
         <label for="email">Email</label>
         <input id="email" type="email" name="email"
-               v-model="form.email">
+               v-model="fields.email"
+               v-class="error: fieldErrors.email">
+        <div class="error-message" v-if="fieldErrors.email" v-text="fieldErrors.email"></div>
     </div>
     <div>
         <label for="password">Password</label>
         <input id="password" type="password" name="password"
-               v-model="form.password">
+               v-model="fields.password"
+               v-class="error: fieldErrors.password">
+        <div class="error-message" v-if="fieldErrors.password" v-text="fieldErrors.password"></div>
     </div>
-    <div class="error" v-if="error" v-text="error"></div>
+    <div class="error-message" v-if="formError" v-text="formError"></div>
     <div>
         <button v-attr="disabled: !submittionAllowed">Login</button>
     </div>

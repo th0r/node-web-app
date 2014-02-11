@@ -1,9 +1,9 @@
 var passport = require('passport');
-var Controller = require('locomotive').Controller;
+var ApplicationController = require('./ApplicationController');
 var User = require('../models/user');
 var loggedOut = require('../filters/loggedOut');
 
-var userController = new Controller();
+var userController = new ApplicationController();
 
 userController.before(['loginForm', 'login', 'registrationForm', 'register'], loggedOut());
 
@@ -27,9 +27,7 @@ userController.login = function () {
             return self.next(err);
         }
         if (!user) {
-            return self.res.json({
-                error: info.message || 'No such user'
-            });
+            return self.jsonError(info);
         }
 
         req.login(user, function (err) {
@@ -55,9 +53,7 @@ userController.register = function () {
 
     User.register(body.email, body.password, function (err, user) {
         if (err) {
-            return self.res.json({
-                error: err.message
-            });
+            return self.jsonError(err);
         }
         req.login(user, function (err) {
             if (err) {
