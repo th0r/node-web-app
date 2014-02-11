@@ -5,3 +5,4 @@ node_modules/
 
 /config/db.json
 /config/secrets.json
+/config/admin.json

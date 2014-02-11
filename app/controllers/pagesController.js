@@ -1,10 +1,9 @@
-var Controller = require('locomotive').Controller;
+var ApplicationController = require('./ApplicationController');
 
-var pagesController = new Controller();
+var pagesController = new ApplicationController();
 
 pagesController.index = function () {
     this.scripts = ['app/pages/index'];
-    this.user = this.req.user;
     this.render();
 };
 

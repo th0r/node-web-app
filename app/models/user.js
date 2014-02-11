@@ -5,6 +5,7 @@ var Types = Schema.Types;
 var passportLocal = require('passport-local');
 var BadRequestError = passportLocal.BadRequestError;
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
 
 var ERRORS = {
     EMAIL_IS_REQUIRED: 'Email обязателен',
@@ -13,7 +14,8 @@ var ERRORS = {
     WRONG_PASSWORD: 'Неправильный пароль',
     USER_NOT_FOUND: 'Пользователь с таким email-ом не найден',
     USER_ALREADY_EXIST: 'Пользователь с таким email-ом уже зарегистрирован',
-    INVALID_PASSWORD: 'Пароль должен состоять минимум из 6 знаков'
+    INVALID_PASSWORD: 'Пароль должен состоять минимум из 6 знаков',
+    INVALID_ROLE: 'Роль "{VALUE}" не существует'
 };
 
 var User = new Schema({
@@ -24,6 +26,14 @@ var User = new Schema({
         validationError: ERRORS.INVALID_EMAIL,
         unique: [true, ERRORS.USER_ALREADY_EXIST]
     },
+
+    roles: [{
+        type: String,
+        enum: {
+            values: ['admin'],
+            message: ERRORS.INVALID_ROLE
+        }
+    }],
 
     hash: {
         type: String
@@ -184,6 +194,18 @@ User.method({
                 cb(null, self);
             });
         });
+    },
+
+    hasRoles: function () {
+        var roles = _.flatten(arguments, true);
+
+        return roles.every(function (role) {
+            return this.indexOf(role) >= 0;
+        }, this.roles);
+    },
+
+    isAdmin: function () {
+        return this.hasRoles('admin');
     }
 
 });

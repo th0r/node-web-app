@@ -1,10 +1,12 @@
 var Controller = require('locomotive').Controller;
+var exposeUser = require('./filters/exposeUser');
 var util = require('util');
 var _ = require('lodash');
 var ValidationError = require('mongoose').Error.ValidationError;
 
 var ApplicationController = function () {
     Controller.call(this);
+    this.before('*', exposeUser);
 };
 
 util.inherits(ApplicationController, Controller);

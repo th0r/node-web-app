@@ -23,7 +23,8 @@
         "passport-local": "~0.1.6",
         "vue": "~0.8.5",
         "jquery": "~2.1.0",
-        "lodash": "~2.4.1"
+        "lodash": "~2.4.1",
+        "q": "~1.0.0"
     },
     "devDependencies": {
         "stylus": "~0.42.2",
