@@ -1,20 +1,20 @@
 var passport = require('passport');
 var ApplicationController = require('./ApplicationController');
 var User = require('../models/user');
-var loggedOut = require('../filters/loggedOut');
+var loggedOut = require('./filters/loggedOut');
 
 var userController = new ApplicationController();
 
-userController.before(['loginForm', 'login', 'registrationForm', 'register'], loggedOut());
+userController.before(['loginPage', 'login', 'registrationPage', 'register'], loggedOut());
 
-userController.loginForm = function () {
+userController.loginPage = function () {
     this.scripts = ['app/user/login'];
-    this.render('loginForm');
+    this.render('loginPage');
 };
 
-userController.registrationForm = function () {
+userController.registrationPage = function () {
     this.scripts = ['app/user/registration'];
-    this.render('registrationForm');
+    this.render('registrationPage');
 };
 
 userController.login = function () {
