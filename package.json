@@ -1,46 +1,44 @@
 {
-  "name": "node-web-app",
-  "version": "0.0.1",
-  "author": "th0r <grunin.ya@ya.ru>",
-  "description": "",
-  "private": true,
-  "main": "server.js",
-  "scripts": {
-    "prepublish": "bower install"
-  },
-  "dependencies": {
-    "locomotive": "*",
-    "express": "*",
-    "mongoose": "*",
-    "locomotive-mongoose": "*",
-    "passport": "*",
-    "swig": "*",
-    "bootable": "*",
-    "bootable-environment": "*",
-    "connect-mongo": "*",
-    "lodash": "*",
-    "passport-local": "*",
-    "connect-flash": "*",
-    "bcrypt": "*",
-    "vue": "*",
-    "jquery": "*"
-  },
-  "devDependencies": {
-    "stylus": "*",
-    "nodemon": "*",
-    "gulp": "*",
-    "gulp-util": "*",
-    "gulp-nodemon": "*",
-    "gulp-if": "*",
-    "gulp-rename": "*",
-    "gulp-rev": "*",
-    "gulp-clean": "*",
-    "gulp-uglify": "*",
-    "gulp-stylus": "*",
-    "gulp-csso": "*",
-    "gulp-browserify": "*",
-    "exposify": "*",
-    "gulp-zopfli": "*",
-    "password-generator": "*"
-  }
+    "name": "node-web-app",
+    "version": "0.0.1",
+    "author": "th0r <grunin.ya@ya.ru>",
+    "description": "",
+    "private": true,
+    "main": "server.js",
+    "scripts": {
+        "prepublish": "bower install"
+    },
+    "dependencies": {
+        "locomotive": "~0.4.1",
+        "bootable": "0.2.x",
+        "bootable-environment": "0.2.x",
+        "express": "~3.4.8",
+        "connect-mongo": "~0.4.0",
+        "connect-flash": "~0.1.1",
+        "swig": "~1.3.2",
+        "mongoose": "~3.8.7",
+        "locomotive-mongoose": "~0.1.0",
+        "bcrypt": "~0.7.7",
+        "passport": "~0.2.0",
+        "passport-local": "~0.1.6",
+        "vue": "~0.8.5",
+        "jquery": "~2.1.0",
+        "lodash": "~2.4.1"
+    },
+    "devDependencies": {
+        "stylus": "~0.42.2",
+        "nodemon": "~1.0.14",
+        "gulp": "~3.5.2",
+        "gulp-util": "~2.2.14",
+        "gulp-if": "~0.0.5",
+        "gulp-rename": "~1.0.0",
+        "gulp-clean": "~0.2.4",
+        "gulp-uglify": "~0.2.1",
+        "gulp-stylus": "~0.0.12",
+        "gulp-csso": "~0.2.3",
+        "gulp-browserify": "~0.4.4",
+        "exposify": "~0.1.3",
+        "gulp-zopfli": "~0.0.1",
+        "password-generator": "~0.2.2"
+    }
 }
