@@ -8,12 +8,16 @@ var userController = new ApplicationController();
 userController.before(['loginPage', 'login', 'registrationPage', 'register'], loggedOut());
 
 userController.loginPage = function () {
-    this.scripts = ['app/user/login'];
+    this.scripts = [
+        ['app', 'user/login']
+    ];
     this.render('loginPage');
 };
 
 userController.registrationPage = function () {
-    this.scripts = ['app/user/registration'];
+    this.scripts = [
+        ['app', 'user/registration']
+    ];
     this.render('registrationPage');
 };
 

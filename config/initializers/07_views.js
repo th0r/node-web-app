@@ -8,8 +8,7 @@ module.exports = function () {
     swig.setDefaults({
         loader: swig.loaders.fs(viewsDir),
         locals: {
-            SCRIPTS_ROOT: this.get('js root'),
-            STYLES_ROOT: this.get('css root'),
+            STATIC_ROOT: this.get('static root'),
             app: {
                 name: this.get('app name')
             }

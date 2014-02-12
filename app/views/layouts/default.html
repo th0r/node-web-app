@@ -7,19 +7,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     {% block head %}
 
-        {% block scripts %}
-            <script>App = {};</script>
-            {{ include.js('vendor/jquery') }}
-            {{ include.js('vendor/vue') }}
-            {% for script in scripts %}
-                {{ include.js(script) }}
+        {% block styles %}
+            {{ include.css('app', 'styles') }}
+            {% for style in styles %}
+                {{ include.css(style[0], style[1]) }}
             {% endfor %}
         {% endblock %}
 
-        {% block styles %}
-            {{ include.css('app/styles') }}
-            {% for style in styles %}
-                {{ include.css(style) }}
+        {% block scripts %}
+            <script>App = {};</script>
+            {{ include.js('vendor', 'jquery') }}
+            {{ include.js('vendor', 'vue') }}
+            {% for script in scripts %}
+                {{ include.js(script[0], script[1]) }}
             {% endfor %}
         {% endblock %}
 

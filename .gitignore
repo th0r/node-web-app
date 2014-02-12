@@ -1,6 +1,7 @@
 /vendor/
-/public/js
-/public/css
+/public/app/js
+/public/app/css
+/public/vendor
 node_modules/
 
 /config/db.json

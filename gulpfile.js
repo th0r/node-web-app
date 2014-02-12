@@ -22,8 +22,12 @@ var src = {
             all: ['app/views/**/*.js']
         },
         vendor: [
+            // jQuery
             'node_modules/jquery/dist/' + (isProd ? 'jquery.min.js' : 'jquery.js'),
-            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js')
+            // Vue
+            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js'),
+            // Bootstrap
+            'vendor/bootstrap/dist/js/' + (isProd ? 'bootstrap.min.js' : 'bootstrap.js')
         ]
     },
     styles: {
@@ -31,18 +35,34 @@ var src = {
             main: ['app/styles/*.styl'],
             all: ['app/styles/**/*.styl']
         },
-        vendor: []
+        vendor: [
+            // Bootstrap (css + map)
+            'vendor/bootstrap/dist/css/bootstrap.css*',
+            'vendor/bootstrap/dist/css/bootstrap-theme.css*'
+        ]
+    },
+    fonts: {
+        app: [],
+        vendor: [
+            // Bootstrap
+            'vendor/bootstrap/dist/fonts/*.*'
+        ]
     }
+
 };
 
 var dest = {
     scripts: {
-        app: 'public/js/app',
-        vendor: 'public/js/vendor'
+        app: 'public/app/js',
+        vendor: 'public/vendor/js'
     },
     styles: {
-        app: 'public/css/app',
-        vendor: 'public/css/vendor'
+        app: 'public/app/css',
+        vendor: 'public/vendor/css'
+    },
+    fonts: {
+        app: 'public/app/fonts',
+        vendor: 'public/vendor/fonts'
     }
 };
 
@@ -104,7 +124,7 @@ gulp.task('server', ['build'], function () {
 
 // ==================================== Build ====================================
 
-gulp.task('build', ['scripts', 'styles']);
+gulp.task('build', ['scripts', 'styles', 'fonts']);
 
 // ==================================== Scripts ====================================
 
@@ -199,6 +219,50 @@ gulp.task('clean.styles.app', function () {
 gulp.task('clean.styles.vendor', function () {
     return gulp
         .src(dest.styles.vendor, {
+            read: false
+        })
+        .pipe(clean());
+});
+
+// ==================================== Fonts ====================================
+
+gulp.task('fonts', ['fonts.app', 'fonts.vendor']);
+
+gulp.task('fonts.app', ['clean.fonts.app'], function () {
+    var files = src.fonts.app;
+
+    if (files.length) {
+        return gulp
+            .src(src.fonts.app)
+            .pipe(gulp.dest(dest.fonts.app))
+            .pipe(gulpif(isProd, gzip()))
+            .pipe(gulpif(isProd, gulp.dest(dest.fonts.app)));
+    }
+});
+
+gulp.task('fonts.vendor', ['clean.fonts.vendor'], function () {
+    var files = src.fonts.vendor;
+
+    if (files.length) {
+        return gulp
+            .src(files)
+            .pipe(gulp.dest(dest.fonts.vendor))
+            .pipe(gulpif(isProd, gzip()))
+            .pipe(gulpif(isProd, gulp.dest(dest.fonts.vendor)));
+    }
+});
+
+gulp.task('clean.fonts.app', function () {
+    return gulp
+        .src(dest.fonts.app, {
+            read: false
+        })
+        .pipe(clean());
+});
+
+gulp.task('clean.fonts.vendor', function () {
+    return gulp
+        .src(dest.fonts.vendor, {
             read: false
         })
         .pipe(clean());
