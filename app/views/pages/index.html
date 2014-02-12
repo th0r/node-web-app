@@ -5,7 +5,7 @@
 {% if user %}
     <div>Current user email is: {{ user.email }}</div>
     {% if user.isAdmin() %}
-        <div>User is admin</div>
+        <a href="{{ adminIndexPath() }}">Admin interface</a>
     {% endif %}
     <a href="{{ logoutPath() | e }}">Logout</a>
 {% else %}

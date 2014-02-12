@@ -3,7 +3,7 @@ module.exports = function (req, res) {
         .status(404)
         .format({
             'html': function () {
-                res.render('404');
+                res.render('errors/404');
             },
             'json': function () {
                 res.send({

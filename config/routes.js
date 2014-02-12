@@ -7,4 +7,8 @@ module.exports = function routes() {
     this.get('/registration', 'user#registrationPage', { as: 'registration' });
     this.post('/registration', 'user#register');
 
+    this.namespace('admin', function () {
+        this.root('pages#index', { as: 'adminIndex'} );
+    });
+
 };
