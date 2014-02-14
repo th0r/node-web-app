@@ -1,9 +1,12 @@
-/vendor/
-/public/app/js
-/public/app/css
-/public/vendor
 node_modules/
+npm-debug.log
 
 /config/db.json
 /config/secrets.json
 /config/admin.json
+
+/vendor/
+/public/app/js
+/public/app/css
+/public/vendor
+
