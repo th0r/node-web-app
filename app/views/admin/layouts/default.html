@@ -1,0 +1,136 @@
+{% import 'admin/macros/assets.html' as asset %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>{% block title %}{{ title || app.name + ' admin' }}{% endblock %}</title>
+
+    {% block head %}
+
+        {% block styles %}
+            {{ asset.css('main') }}
+            <!--[if IE 8]>{{ asset.css('ie8') }}<![endif]-->
+            {% for style in styles %}
+                {{ asset.css(style) }}
+            {% endfor %}
+        {% endblock %}
+
+        {% block scripts %}
+            <script>App = {};</script>
+            {{ asset.js('libs/jquery-1.7.2') }}
+            {{ asset.js('libs/jquery-ui-1.9.2') }}
+            {{ asset.js('libs/bootstrap.min') }}
+            {{ asset.js('plugins/ui/jquery.collapsible.min') }}
+            {{ asset.js('plugins/forms/jquery.uniform.min') }}
+            {% for plugin in plugins %}
+                {{ asset.js('plugins/' + plugin) }}
+            {% endfor %}
+
+            {{ asset.js('common') }}
+            {% for script in scripts %}
+                {{ asset.js(script) }}
+            {% endfor %}
+        {% endblock %}
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+<!-- Fixed top -->
+<div id="top">
+    <div class="fixed">
+        <a href="index.html" title="" class="logo"><img src="{{ asset.img('logo.png') }}" alt=""/></a>
+        <ul class="top-menu">
+            <li><a class="fullview"></a></li>
+            <li><a class="showmenu"></a></li>
+            <li><a href="#" title="" class="messages"><i class="new-message"></i></a></li>
+            <li class="dropdown">
+                <a class="user-menu" data-toggle="dropdown"><img src="{{ asset.img('userpic.png') }}" alt=""/><span>Howdy, Eugene! <b
+                    class="caret"></b></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" title=""><i class="icon-user"></i>Profile</a></li>
+                    <li><a href="#" title=""><i class="icon-inbox"></i>Messages<span
+                        class="badge badge-info">9</span></a></li>
+                    <li><a href="#" title=""><i class="icon-cog"></i>Settings</a></li>
+                    <li><a href="#" title=""><i class="icon-remove"></i>Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- /fixed top -->
+
+
+<!-- Content container -->
+<div id="container">
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+
+        <!-- Main navigation -->
+        <ul class="navigation widget">
+            <li><a href="" title="Список пользователей"><i class="icon-group"></i>Пользователи</a></li>
+        </ul>
+            <!-- /main navigation -->
+
+    </div>
+    <!-- /sidebar -->
+
+
+    <!-- Content -->
+    <div id="content">
+
+        <!-- Content wrapper -->
+        <div class="wrapper">
+
+            <!-- Breadcrumbs line -->
+            {% if navLine %}
+                <div class="crumbs">
+                    <ul id="breadcrumbs" class="breadcrumb">
+                        {% for part in navLine %}
+                        <li class="{% if loop.last %}active{% endif %}"><a href="{{ part.link }}">{{ part.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <!-- /breadcrumbs line -->
+
+            <!-- Page header -->
+            {% if header %}
+                <div class="page-header">
+                        <div class="page-title">
+                            <h5>{{ header.title || header }}</h5>
+                            {% if header.description %}
+                                <span>{{ header.description }}</span>
+                            {% endif %}
+                        </div>
+                </div>
+            {% endif %}
+            <!-- /page header -->
+
+            {% block content %}{% endblock %}
+
+        </div>
+        <!-- /content wrapper -->
+
+    </div>
+    <!-- /content -->
+
+</div>
+<!-- /content container -->
+
+<!-- Footer -->
+<div id="footer">
+    <ul class="footer-links">
+        <!--<li><a href="" title=""><i class="icon-cogs"></i>Contact admin</a></li>-->
+        <!--<li><a href="" title=""><i class="icon-screenshot"></i>Report bug</a></li>-->
+    </ul>
+</div>
+<!-- /footer -->
+
+</body>
+</html>

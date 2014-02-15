@@ -25,9 +25,9 @@ var src = {
             // jQuery
             'node_modules/jquery/dist/' + (isProd ? 'jquery.min.js' : 'jquery.js'),
             // Vue
-            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js'),
+            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js')
             // Bootstrap
-            'vendor/bootstrap/dist/js/' + (isProd ? 'bootstrap.min.js' : 'bootstrap.js')
+//            'vendor/bootstrap/dist/js/' + (isProd ? 'bootstrap.min.js' : 'bootstrap.js')
         ]
     },
     styles: {
@@ -37,15 +37,15 @@ var src = {
         },
         vendor: [
             // Bootstrap (css + map)
-            'vendor/bootstrap/dist/css/bootstrap.css*',
-            'vendor/bootstrap/dist/css/bootstrap-theme.css*'
+//            'vendor/bootstrap/dist/css/bootstrap.css*',
+//            'vendor/bootstrap/dist/css/bootstrap-theme.css*'
         ]
     },
     fonts: {
         app: [],
         vendor: [
             // Bootstrap
-            'vendor/bootstrap/dist/fonts/*.*'
+//            'vendor/bootstrap/dist/fonts/*.*'
         ]
     }
 

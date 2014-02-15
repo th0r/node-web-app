@@ -1,18 +1,14 @@
-var ApplicationController = require('../ApplicationController');
-var hasRoles = require('../filters/hasRoles');
+var AdminController = require('./AdminController');
+var _ = require('lodash');
 
-var adminPagesController = new ApplicationController();
+var adminPagesController = new AdminController();
 
-adminPagesController.before('*', hasRoles('admin'));
+_.extend(adminPagesController, {
 
-adminPagesController.index = function () {
-    this.styles = [
-        ['vendor', 'bootstrap']
-    ];
-    this.scripts = [
-        ['vendor', 'bootstrap']
-    ];
-    this.render('admin/index');
-};
+    index: function () {
+        this.redirect(this.adminUsersPath());
+    }
+
+});
 
 module.exports = adminPagesController;
