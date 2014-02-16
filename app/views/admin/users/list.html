@@ -12,6 +12,8 @@
 
     <script>
         $(function () {
+            var linkToUser = _.template('<a href="<%- url %>"><%- email %></a>');
+
             $('#usersTable').dataTable({
                 sAjaxSource: '{{ adminUsersTablePath() | addslashes }}',
                 aoColumns: [
@@ -20,7 +22,7 @@
                         sTitle: 'Email',
                         mData: 'email',
                         mRender: function (email, type, user) {
-                            return '<a href="' + encodeURI(user.url) + '">' + email + '</a>';
+                            return linkToUser(user);
                         }
                     },
                     {

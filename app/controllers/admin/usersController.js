@@ -1,7 +1,7 @@
-var AdminController = require('./AdminController');
 var _ = require('lodash');
-var escapeRegexp = require('../../utils/escape').regexp;
 var Q = require('q');
+var escapeRegexp = require('../../utils/escape').regexp;
+var AdminController = require('./AdminController');
 var User = require('../../models/user');
 
 var adminUsersController = new AdminController();
@@ -61,10 +61,9 @@ _.extend(adminUsersController, {
                     iTotalDisplayRecords: totalFiltered,
                     sEcho: Number(params.sEcho),
                     data: users.map(function (user) {
-                        var json = user.toJSON();
+                        var json = _.pick(user, cols);
 
                         json.url = self.adminUserPath(user);
-                        delete json._id;
 
                         return json;
                     })
