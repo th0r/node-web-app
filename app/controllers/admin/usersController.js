@@ -9,17 +9,22 @@ var adminUsersController = new AdminController();
 _.extend(adminUsersController, {
 
     index: function () {
-        this.header = {
-            title: 'Пользователи',
-            description: 'Список зарегистрированных пользователей'
-        };
-        this.navLine = [
-            {
+
+        _.extend(this, {
+            pageType: 'users',
+            header: {
                 title: 'Пользователи',
-                link: this.adminUsersPath()
-            }
-        ];
-        this.plugins = ['tables/jquery.dataTables'];
+                description: 'Список зарегистрированных пользователей'
+            },
+            navLine: [
+                {
+                    title: 'Пользователи',
+                    link: this.adminUsersPath()
+                }
+            ],
+            plugins: ['tables/jquery.dataTables']
+        });
+
         this.render('admin/users/list');
     },
 

@@ -1,5 +1,9 @@
 {% import 'admin/macros/assets.html' as asset %}
 
+{% macro navItem(title, icon, href, hint, active) %}
+<li{% if active %} class="active"{% endif %}><a href="{{ href }}" title="{{ hint }}"><i class="icon-{{ icon }}"></i>{{ title }}</a></li>
+{% endmacro %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -74,7 +78,7 @@
 
         <!-- Main navigation -->
         <ul class="navigation widget">
-            <li><a href="" title="Список пользователей"><i class="icon-group"></i>Пользователи</a></li>
+            {{ navItem('Пользователи', 'group', adminUsersPath(), 'Список пользователей', pageType === 'users') }}
         </ul>
             <!-- /main navigation -->
 
