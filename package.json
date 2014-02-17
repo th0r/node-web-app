@@ -1,6 +1,6 @@
 {
     "name": "node-web-app",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "th0r <grunin.ya@ya.ru>",
     "description": "",
     "private": true,
@@ -32,7 +32,7 @@
         "gulp": "~3.5.2",
         "gulp-util": "~2.2.14",
         "gulp-if": "~0.0.5",
-        "gulp-rename": "~1.0.0",
+        "gulp-rename": "~1.1.0",
         "gulp-clean": "~0.2.4",
         "gulp-uglify": "~0.2.1",
         "gulp-stylus": "~0.0.12",
