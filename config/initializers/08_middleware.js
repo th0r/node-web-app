@@ -21,6 +21,7 @@ module.exports = function () {
     // "connect.urlencoded" + "connect.json" replaces "bodyParser"
     this.use(express.urlencoded());
     this.use(express.json());
+    this.use(express.methodOverride());
     this.use(express.session({
         secret: this.get('secrets').sessionKey,
         key: 'sid',

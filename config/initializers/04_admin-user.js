@@ -17,7 +17,7 @@ module.exports = function (done) {
     }
 
     // Trying to create document for admin user
-    User = require('../../app/models/user');
+    User = require('../../app/models/User');
 
     try {
         admin = new User(adminInfo);

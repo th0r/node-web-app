@@ -1,16 +1,35 @@
 {
-  "name": "node-web-app",
-  "version": "0.0.1",
-  "authors": [
-    "th0r <grunin.ya@ya.ru>"
-  ],
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {}
+    "name": "node-web-app",
+    "version": "0.0.1",
+    "authors": [
+        "th0r <grunin.ya@ya.ru>"
+    ],
+    "private": true,
+    "dependencies": {
+        "jquery": "~2.1.0",
+        "vue": "~0.8.6",
+        "lodash": "~2.4.1",
+        "jquery-ui": "~1.10.4",
+        "bootstrap": "~3.1.1",
+        "jquery.collapsible": "collapsible#~1.2.1",
+        "jquery.uniform": "~2.1.2",
+        "jquery.datatables": "datatables#~1.9.4"
+    },
+    "overrides": {
+        "bootstrap": {
+            "main": "dist/js/bootstrap.js"
+        },
+        "jquery": {
+            "main": "dist/jquery.js"
+        },
+        "jquery.collapsible": {
+            "main": "jquery.collapsible.js"
+        },
+        "jquery.uniform": {
+            "main": "jquery.uniform.js"
+        },
+        "jquery.datatables": {
+            "main": "media/js/jquery.dataTables.js"
+        }
+    }
 }

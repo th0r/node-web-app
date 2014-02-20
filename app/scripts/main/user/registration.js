@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var Vue = require('vue');
-var RegistrationFormView = require('../forms/RegistrationFormView');
+var RegistrationFormView = require('../../views/RegistrationFormView');
 
 $(function () {
 

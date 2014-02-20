@@ -1,6 +1,6 @@
 module.exports = function (roles) {
     return function (next) {
-        var user = this.user;
+        var user = this.req.user;
 
         if (user && user.hasRoles(roles)) {
             next();

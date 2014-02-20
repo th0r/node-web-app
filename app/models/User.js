@@ -48,7 +48,9 @@ User.static({
     },
 
     deserialize: function (email, cb) {
-        return this.findByEmail(email, cb);
+        return this.findByEmail(email)
+            .select('-hash')
+            .exec(cb);
     },
 
     createLocalStrategy: function () {

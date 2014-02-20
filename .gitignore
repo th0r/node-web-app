@@ -5,8 +5,9 @@ npm-debug.log
 /config/secrets.json
 /config/admin.json
 
-/vendor/
+/vendor/bower
 /public/app/js
 /public/app/css
+/public/app/fonts
 /public/vendor
 

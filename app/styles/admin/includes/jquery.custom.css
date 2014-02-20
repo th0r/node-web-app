@@ -117,12 +117,12 @@
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset;
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset;
 	background: #f38471; 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -moz-linear-gradient(top,  #f38471 0%, #ea6853 100%); 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f38471), color-stop(100%,#ea6853)); 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -webkit-linear-gradient(top,  #f38471 0%,#ea6853 100%); 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -o-linear-gradient(top,  #f38471 0%,#ea6853 100%); 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -ms-linear-gradient(top,  #f38471 0%,#ea6853 100%); 
-	background: url(../img/elements/interface/progress_overlay.png) repeat-x, linear-gradient(top,  #f38471 0%,#ea6853 100%); 
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -moz-linear-gradient(top,  #f38471 0%, #ea6853 100%);
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f38471), color-stop(100%,#ea6853));
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -webkit-linear-gradient(top,  #f38471 0%,#ea6853 100%);
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -o-linear-gradient(top,  #f38471 0%,#ea6853 100%);
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, -ms-linear-gradient(top,  #f38471 0%,#ea6853 100%);
+	background: url(../img/elements/interface/progress_overlay.png) repeat-x, linear-gradient(top,  #f38471 0%,#ea6853 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f38471', endColorstr='#ea6853',GradientType=0 ); 
 }
 .ui-slider-horizontal { 

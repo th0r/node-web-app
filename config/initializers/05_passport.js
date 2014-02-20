@@ -1,7 +1,7 @@
 var passport = require('passport');
 
 module.exports = function () {
-    var User = require('../../app/models/user');
+    var User = require('../../app/models/User');
 
     passport.use(User.createLocalStrategy());
 

@@ -2,9 +2,9 @@
 
 {% block content %}
 
-{% if user %}
-    <div>Current user email is: {{ user.email }}</div>
-    {% if user.isAdmin() %}
+{% if currentUser %}
+    <div>Current user email is: {{ currentUser.email }}</div>
+    {% if currentUser.isAdmin() %}
         <a href="{{ adminIndexPath() }}">Admin interface</a>
     {% endif %}
     <a href="{{ logoutPath() | e }}">Logout</a>

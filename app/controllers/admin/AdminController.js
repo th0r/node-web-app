@@ -1,12 +1,12 @@
 var ApplicationController = require('../ApplicationController');
 var isAdmin = require('../filters/hasRoles')('admin');
-var util = require('util');
+var extend = require('../../utils/extend');
 
-var AdminControler = function () {
+var AdminController = function () {
     ApplicationController.call(this);
     this.before('*', isAdmin);
 };
 
-util.inherits(AdminControler, ApplicationController);
+extend(AdminController, ApplicationController);
 
-module.exports = AdminControler;
+module.exports = AdminController;

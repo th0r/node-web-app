@@ -250,11 +250,11 @@
 .plupload_header { display: none; }
 .plupload_start { float: left; }
 .plupload_buttons > a.btn-primary { margin-left: 10px; }
-.plupload_start span { background: url(../img/elements/uploader/upload.png) no-repeat 10px; padding: 5px 13px 6px 26px; display: block;  }
+.plupload_start span { background: url(img/elements/uploader/upload.png) no-repeat 10px; padding: 5px 13px 6px 26px; display: block;  }
 .plupload_disabled, a.plupload_disabled:hover { color: #a6a6a6!important; border: 1px solid #d5d5d5!important; background: #e5e5e5!important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; text-shadow: none!important; cursor: default!important; }
 .plupload_disabled span { padding: 5px 13px 6px 13px; }
 .plupload_add { float: left; }
-.plupload_add span { background: url(../img/elements/uploader/add.png) no-repeat 10px; padding: 5px 13px 6px 26px; display: block; }
+.plupload_add span { background: url(img/elements/uploader/add.png) no-repeat 10px; padding: 5px 13px 6px 26px; display: block; }
 .plupload_wrapper { font-size: 11px;; width: 100%; }
 .plupload_container input { border: 1px solid #DDD; font-size: 11px; width: 98%; }
 .plupload_filelist { margin: 0; padding: 0; list-style: none; }
@@ -680,23 +680,6 @@ body[dir='rtl'] .formError .formErrorArrow, body.rtl .formError .formErrorArrow 
 
 
 
-/* # Dual select boxes
-================================================== */
-
-.dual-control .btn { padding: 0 8px; line-height: 24px; font-size: 11px; cursor: pointer; color: #999; height: 26px; margin: 2px 1px; }
-.left-box, .right-box { width: 40%; position: relative; }
-.left-box .multiple, .right-box .multiple { height: 300px; margin-top: 15px; }
-.left-box { float: left; }
-.right-box { float: right; }
-.filter { position: absolute; right: 4px; top: 6px; font-size: 12px; background: none; border: none; color: gray; }
-.dual-control { text-align: center; width: 90px; margin: 150px 1px; position: absolute; left: 50%; margin-left: -45px; } 
-.count-label { color: gray; font-style:italic; margin-top: 10px; display: block; }
-.box-filter {  background: white; width: 100%; border: 1px solid #D5D5D5; padding: 7px 8px; font-size: 11px; font-family: Arial, Helvetica, sans-serif; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
-
-
-
-
-
 /* # Tags input
 ================================================== */
 
@@ -754,12 +737,12 @@ div.tagsinput div { display: block; float: left; position: relative; }
 .paginate_disabled_previous, .paginate_disabled_next { color: #666 !important; }
 .paginate_disabled_previous, .paginate_enabled_previous { padding-left: 23px; }
 .paginate_disabled_next, .paginate_enabled_next { padding-right: 23px; margin-left: 10px; }
-.paginate_enabled_previous { background: url('../img/elements/tables/back_enabled.png') no-repeat top left; }
-.paginate_enabled_previous:hover { background: url('../img/elements/tables/back_enabled_hover.png') no-repeat top left; }
-.paginate_disabled_previous { background: url('../img/elements/tables/back_disabled.png') no-repeat top left; }
-.paginate_enabled_next { background: url('../img/elements/tables/forward_enabled.png') no-repeat top right; }
-.paginate_enabled_next:hover { background: url('../img/elements/tables/forward_enabled_hover.png') no-repeat top right; }
-.paginate_disabled_next { background: url('../img/elements/tables/forward_disabled.png') no-repeat top right; }
+.paginate_enabled_previous { background: url('img/elements/tables/back_enabled.png') no-repeat top left; }
+.paginate_enabled_previous:hover { background: url('img/elements/tables/back_enabled_hover.png') no-repeat top left; }
+.paginate_disabled_previous { background: url('img/elements/tables/back_disabled.png') no-repeat top left; }
+.paginate_enabled_next { background: url('img/elements/tables/forward_enabled.png') no-repeat top right; }
+.paginate_enabled_next:hover { background: url('img/elements/tables/forward_enabled_hover.png') no-repeat top right; }
+.paginate_disabled_next { background: url('img/elements/tables/forward_disabled.png') no-repeat top right; }
 
 
 /* Full number pagination */
@@ -793,7 +776,7 @@ div.tagsinput div { display: block; float: left; position: relative; }
 .sorting { background: url('../img/elements/tables/sort_both.png') no-repeat 100% 8px; }
 .sorting_asc { background: url('../img/elements/tables/sort_asc.png') no-repeat 100% 9px; }
 .sorting_desc { background: url('../img/elements/tables/sort_desc.png') no-repeat 100% 9px; }
-.sorting_asc_disabled { background: url('../img/elements/tables/sort_asc_disabled.png') no-repeat 100% 9px; }
+.sorting_asc_disabled { background: url('img/elements/tables/sort_asc_disabled.png') no-repeat 100% 9px; }
 .sorting_desc_disabled { background: url('../img/elements/tables/sort_desc_disabled.png') no-repeat 100% 9px; }
 table.dataTable th:active { outline: none; }
 .dataTables_scroll { clear: both; }

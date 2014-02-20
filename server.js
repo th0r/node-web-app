@@ -5,14 +5,13 @@ var port = process.env.PORT || (process.env.NODE_ENV === 'production' ? 80 : 300
 
 // Create a new application and initialize it with *required* support for
 // controllers and views.  Move (or remove) these lines at your own peril.
-app.phase(locomotive.boot.controllers(__dirname + '/app/controllers'));
-// Replace "underscore" view resolver with "pass-through" resolver to use camelCase view names
 app.phase(function () {
-    this.views.resolve.use(function (id) {
-        return id;
-    });
+    // Use custom view and controller resolvers
+    this.controllers.resolve.use(require('./app/resolvers/controller')(__dirname + '/app/controllers'));
+    this.views.resolve.use(require('./app/resolvers/view'));
+    // Use custom controller instantiator
+    this.controllers.instantiate.use(require('./app/instantiators/controller'));
 });
-app.phase(locomotive.boot.views());
 
 // Add phases to configure environments, run initializers, draw routes, and
 // start an HTTP server.  Additional phases can be inserted as neeeded, which

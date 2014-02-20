@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var Vue = require('vue');
-var LoginFormView = require('../forms/LoginFormView');
+var LoginFormView = require('../../views/LoginFormView');
 
 $(function () {
 

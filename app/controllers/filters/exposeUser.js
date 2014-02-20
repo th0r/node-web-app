@@ -1,4 +1,8 @@
-module.exports = function (next) {
-    this.user = this.req.user;
-    next();
+module.exports = function (userPropertyName) {
+    userPropertyName = userPropertyName || 'currentUser';
+
+    return function (next) {
+        this[userPropertyName] = this.req.user;
+        next();
+    };
 };

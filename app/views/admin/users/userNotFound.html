@@ -1,0 +1,14 @@
+{% extends 'admin/layouts/default.html' %}
+
+{% set pageType = 'users' %}
+
+{% block navLineItems %}
+    {{ navLineItem('Пользователи', adminUsersPath()) }}
+    {{ navLineItem('Неизвестный пользователь', null, true) }}
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <div class="alert sans align-center margin">Пользователь не найден</div>
+{% endblock %}

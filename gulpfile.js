@@ -2,6 +2,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var pkg = require('./package.json');
 var gulp = require('gulp');
+var es = require('event-stream');
 var util = require('gulp-util');
 var gulpif = require('gulp-if');
 var rename = require('gulp-rename');
@@ -10,43 +11,35 @@ var uglify = require('gulp-uglify');
 var gzip = require('gulp-zopfli');
 var browserify = require('gulp-browserify');
 var exposify = require('exposify');
+var bowerScripts = require('gulp-bower-files');
 var stylus = require('gulp-stylus');
 var csso = require('gulp-csso');
 var nodemon = require('nodemon');
 var isProd = util.env.production;
 
+exposify.config = {
+    jquery: '$',
+    vue: 'Vue',
+    lodash: '_'
+};
+
 var src = {
     scripts: {
         app: {
-            main: ['app/views/**/*Page.js'],
-            all: ['app/views/**/*.js']
-        },
-        vendor: [
-            // jQuery
-            'node_modules/jquery/dist/' + (isProd ? 'jquery.min.js' : 'jquery.js'),
-            // Vue
-            'node_modules/vue/dist/' + (isProd ? 'vue.min.js' : 'vue.js')
-            // Bootstrap
-//            'vendor/bootstrap/dist/js/' + (isProd ? 'bootstrap.min.js' : 'bootstrap.js')
-        ]
+            main: ['app/scripts/main/**/*.js'],
+            all: ['app/scripts/**/*.js']
+        }
     },
     styles: {
         app: {
-            main: ['app/styles/*.styl'],
-            all: ['app/styles/**/*.styl']
+            main: ['app/styles/**/*.{styl,css}', '!app/styles/**/includes/*.{styl,css}'],
+            all: ['app/styles/**/*.{styl,css}']
         },
-        vendor: [
-            // Bootstrap (css + map)
-//            'vendor/bootstrap/dist/css/bootstrap.css*',
-//            'vendor/bootstrap/dist/css/bootstrap-theme.css*'
-        ]
+        vendor: []
     },
     fonts: {
-        app: [],
-        vendor: [
-            // Bootstrap
-//            'vendor/bootstrap/dist/fonts/*.*'
-        ]
+        app: ['app/styles/**/fonts/*.*'],
+        vendor: []
     }
 
 };
@@ -124,18 +117,13 @@ gulp.task('server', ['build'], function () {
 
 // ==================================== Build ====================================
 
-gulp.task('build', ['scripts', 'styles', 'fonts']);
+gulp.task('build', ['scripts', 'styles']);
 
 // ==================================== Scripts ====================================
 
 gulp.task('scripts', ['scripts.app', 'scripts.vendor']);
 
 gulp.task('scripts.app', ['clean.scripts.app'], function () {
-    exposify.config = {
-        jquery: '$',
-        vue: 'Vue'
-    };
-
     return gulp
         .src(src.scripts.app.main)
         .pipe(browserify({
@@ -146,20 +134,28 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             path.basename = path.basename.replace(/Page$/, '');
         }))
         .pipe(gulpif(isProd, uglify()))
-        .pipe(gulp.dest(dest.scripts.app))
-        .pipe(gulpif(isProd, gzip()))
-        .pipe(gulpif(isProd, gulp.dest(dest.scripts.app)));
+        .pipe(gulp.dest(dest.scripts.app));
 });
 
 gulp.task('scripts.vendor', ['clean.scripts.vendor'], function () {
-    return gulp.src(src.scripts.vendor)
-        // Removing ".min" part from filenames in production
-        .pipe(gulpif(isProd, rename(function (path) {
+    return es.concat(
+            bowerScripts()
+                .pipe(rename(function (path) {
+                    // Taking root directory name as the name of the script
+                    path.basename = path.dirname.split('/')[0];
+                    path.dirname = '';
+                })),
+            gulp.src(['vendor/**/*.*', '!vendor/bower/**/*.*'])
+        )
+        .pipe(gulpif(function (file) {
+            // Do not minimize if filename ends with ".min.js"
+            return isProd && !/\.min\.js$/.test(file.path);
+        }, uglify()))
+        .pipe(rename(function (path) {
+            // Removing ".min" part from filenames
             path.basename = path.basename.replace(/\.min$/, '');
-        })))
-        .pipe(gulp.dest(dest.scripts.vendor))
-        .pipe(gulpif(isProd, gzip()))
-        .pipe(gulpif(isProd, gulp.dest(dest.scripts.vendor)));
+        }))
+        .pipe(gulp.dest(dest.scripts.vendor));
 });
 
 gulp.task('clean.scripts.app', function () {
@@ -180,19 +176,17 @@ gulp.task('clean.scripts.vendor', function () {
 
 // ==================================== Styles ====================================
 
-gulp.task('styles', ['styles.app', 'styles.vendor']);
+gulp.task('styles', ['styles.app', 'styles.vendor', 'fonts.app', 'fonts.vendor']);
 
 gulp.task('styles.app', ['clean.styles.app'], function () {
     return gulp
         .src(src.styles.app.main)
-        .pipe(stylus({
+        .pipe(gulpif(/\.styl$/, stylus({
             use: ['nib'],
-            set: isProd ? null : ['firebug', 'linenos']
-        }))
+            set: ['include css'].concat(isProd ? [] : ['firebug', 'linenos'])
+        })))
         .pipe(gulpif(isProd, csso()))
-        .pipe(gulp.dest(dest.styles.app))
-        .pipe(gulpif(isProd, gzip()))
-        .pipe(gulpif(isProd, gulp.dest(dest.styles.app)));
+        .pipe(gulp.dest(dest.styles.app));
 });
 
 gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
@@ -202,9 +196,7 @@ gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
         return gulp
             .src(files)
             .pipe(gulpif(isProd, csso()))
-            .pipe(gulp.dest(dest.styles.vendor))
-            .pipe(gulpif(isProd, gzip()))
-            .pipe(gulpif(isProd, gulp.dest(dest.styles.vendor)));
+            .pipe(gulp.dest(dest.styles.vendor));
     }
 });
 
@@ -224,31 +216,17 @@ gulp.task('clean.styles.vendor', function () {
         .pipe(clean());
 });
 
-// ==================================== Fonts ====================================
-
-gulp.task('fonts', ['fonts.app', 'fonts.vendor']);
-
 gulp.task('fonts.app', ['clean.fonts.app'], function () {
     var files = src.fonts.app;
 
     if (files.length) {
         return gulp
             .src(src.fonts.app)
-            .pipe(gulp.dest(dest.fonts.app))
-            .pipe(gulpif(isProd, gzip()))
-            .pipe(gulpif(isProd, gulp.dest(dest.fonts.app)));
-    }
-});
-
-gulp.task('fonts.vendor', ['clean.fonts.vendor'], function () {
-    var files = src.fonts.vendor;
-
-    if (files.length) {
-        return gulp
-            .src(files)
-            .pipe(gulp.dest(dest.fonts.vendor))
-            .pipe(gulpif(isProd, gzip()))
-            .pipe(gulpif(isProd, gulp.dest(dest.fonts.vendor)));
+            .pipe(rename(function (path) {
+                // Removing tailing "/fonts" directory
+                path.dirname = path.dirname.replace(/\/?fonts$/, '');
+            }))
+            .pipe(gulp.dest(dest.fonts.app));
     }
 });
 
@@ -258,6 +236,16 @@ gulp.task('clean.fonts.app', function () {
             read: false
         })
         .pipe(clean());
+});
+
+gulp.task('fonts.vendor', ['clean.fonts.vendor'], function () {
+    var files = src.fonts.vendor;
+
+    if (files.length) {
+        return gulp
+            .src(files)
+            .pipe(gulp.dest(dest.fonts.vendor));
+    }
 });
 
 gulp.task('clean.fonts.vendor', function () {

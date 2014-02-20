@@ -1,0 +1,65 @@
+{% extends 'admin/layouts/default.html' %}
+
+{% set pageType = 'users' %}
+
+{% block navLineItems %}
+    {{ navLineItem('Пользователи', adminUsersPath()) }}
+{% endblock %}
+
+{% block header %}
+    {% if user %}
+        {{ header('Пользователь ' + user.email, 'Редактирование учетной записи пользователя') }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if user %}
+        <form id="userForm" class="form-horizontal" action="{{ adminUserPath(user) | e }}" method="post" novalidate>
+            <input type="hidden" name="_method" value="put">
+            <fieldset>
+                <div class="widget row-fluid">
+                    <div class="well">
+                        {% if error %}
+                            <div class="alert margin">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{ error }}
+                            </div>
+                        {% endif %}
+
+                        <div class="control-group">
+                            <label for="id" class="control-label">ID:</label>
+                            <div class="controls">
+                                <input id="id" name="_id" type="text" class="span12" value="{{ user._id.toString() }}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="email" class="control-label">Email:</label>
+                            <div class="controls">
+                                <input id="email" name="email" type="email" class="span12" value="{{ user.email }}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-actions align-center">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <button type="reset" class="btn">Сбросить изменения</button>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    {% else %}
+        <div class="alert sans align-center margin">Пользователь не найден</div>
+    {% endif %}
+{% endblock %}
+
+{% block pageScript %}
+<script>
+    var userForm = new Vue({
+
+        el: '#userForm'
+
+    });
+</script>
+{% endblock %}
