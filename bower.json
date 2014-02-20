@@ -31,5 +31,8 @@
         "jquery.datatables": {
             "main": "media/js/jquery.dataTables.js"
         }
+    },
+    "resolutions": {
+        "jquery": "~2.1.0"
     }
 }
