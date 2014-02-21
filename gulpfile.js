@@ -14,6 +14,7 @@ var exposify = require('exposify');
 var bowerScripts = require('gulp-bower-files');
 var stylus = require('gulp-stylus');
 var csso = require('gulp-csso');
+var imagemin = require('gulp-imagemin');
 var nodemon = require('nodemon');
 var isProd = util.env.production;
 
@@ -37,11 +38,14 @@ var src = {
         },
         vendor: []
     },
+    img: {
+        app: ['app/styles/**/img/*.*'],
+        vendor: []
+    },
     fonts: {
         app: ['app/styles/**/fonts/*.*'],
         vendor: []
     }
-
 };
 
 var dest = {
@@ -52,6 +56,10 @@ var dest = {
     styles: {
         app: 'public/app/css',
         vendor: 'public/vendor/css'
+    },
+    img: {
+        app: 'public/app/img',
+        vendor: 'public/vendor/img'
     },
     fonts: {
         app: 'public/app/fonts',
@@ -176,7 +184,7 @@ gulp.task('clean.scripts.vendor', function () {
 
 // ==================================== Styles ====================================
 
-gulp.task('styles', ['styles.app', 'styles.vendor', 'fonts.app', 'fonts.vendor']);
+gulp.task('styles', ['styles.app', 'styles.vendor', 'fonts.app', 'fonts.vendor', 'img.app', 'img.vendor']);
 
 gulp.task('styles.app', ['clean.styles.app'], function () {
     return gulp
@@ -251,6 +259,47 @@ gulp.task('fonts.vendor', ['clean.fonts.vendor'], function () {
 gulp.task('clean.fonts.vendor', function () {
     return gulp
         .src(dest.fonts.vendor, {
+            read: false
+        })
+        .pipe(clean());
+});
+
+gulp.task('img.app', ['clean.img.app'], function () {
+    var files = src.img.app;
+
+    if (files.length) {
+        return gulp
+            .src(src.img.app)
+            .pipe(rename(function (path) {
+                // Removing tailing "/img" directory
+                path.dirname = path.dirname.replace(/\/?img$/, '');
+            }))
+            .pipe(gulpif(isProd, imagemin()))
+            .pipe(gulp.dest(dest.img.app));
+    }
+});
+
+gulp.task('clean.img.app', function () {
+    return gulp
+        .src(dest.img.app, {
+            read: false
+        })
+        .pipe(clean());
+});
+
+gulp.task('img.vendor', ['clean.img.vendor'], function () {
+    var files = src.img.vendor;
+
+    if (files.length) {
+        return gulp
+            .src(files)
+            .pipe(gulp.dest(dest.img.vendor));
+    }
+});
+
+gulp.task('clean.img.vendor', function () {
+    return gulp
+        .src(dest.img.vendor, {
             read: false
         })
         .pipe(clean());
