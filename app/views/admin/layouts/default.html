@@ -1,13 +1,13 @@
-{% import 'admin/macros/assets.html' as asset %}
+{% import 'admin/macros/assets.html' as asset -%}
 
 {% macro navMenuItem(title, icon, href, hint, active) %}
 <li{% if active %} class="active"{% endif %}><a href="{{ href }}" title="{{ hint }}"><i class="icon-{{ icon }}"></i>{{ title }}</a></li>
-{% endmacro %}
+{% endmacro -%}
 
 {% macro navLineItem(title, link, isLast) %}
 {% if link %}{% set tag = 'a' %}{% else %}{% set tag = 'span' %}{% endif -%}
 <li{% if isLast %} class="active"{% endif %}><{{ tag }}{% if link %} href="{{ link }}"{% endif %}>{{ title }}</{{ tag }}></li>
-{% endmacro %}
+{% endmacro -%}
 
 {% macro header(title, description) %}
 <div class="page-header">
@@ -18,14 +18,14 @@
         {% endif %}
     </div>
 </div>
-{% endmacro %}
+{% endmacro -%}
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <title>{% block title %}{{ title || app.name + ' admin' }}{% endblock %}</title>
+    <title>{% block title %}{{ title or app.name + ' admin' }}{% endblock %}</title>
 
     {% block head %}{% endblock %}
 
@@ -40,13 +40,13 @@
 
     {% block scripts %}
         {% block vendorScripts %}
-            {{ asset.jsVendor('jquery') }}
-            {{ asset.jsVendor('jquery-ui') }}
-            {{ asset.jsVendor('bootstrap') }}
-            {{ asset.jsVendor('vue') }}
-            {{ asset.jsVendor('lodash') }}
-            {{ asset.jsVendor('jquery.collapsible') }}
-            {{ asset.jsVendor('jquery.uniform') }}
+            {% script vendor 'jquery' %}
+            {% script vendor 'jquery-ui' %}
+            {% script vendor 'bootstrap' %}
+            {% script vendor 'vue' %}
+            {% script vendor 'lodash' %}
+            {% script vendor 'jquery.collapsible' %}
+            {% script vendor 'jquery.uniform' %}
         {% endblock %}
 
         {% block appScripts %}
@@ -91,7 +91,7 @@
 
         <!-- Main navigation -->
         <ul class="navigation widget">
-            {{ navMenuItem('Пользователи', 'group', adminUsersPath(), 'Список пользователей', pageType === 'users') }}
+            {{ navMenuItem('Пользователи', 'group', adminUsersPath(), 'Список пользователей', pageType == 'users') }}
         </ul>
             <!-- /main navigation -->
 

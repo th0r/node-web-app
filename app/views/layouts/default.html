@@ -1,9 +1,9 @@
-{% import 'macros/assets.html' as include %}
+{% import 'macros/assets.html' as include -%}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{{ title || app.name }}{% endblock %}</title>
+    <title>{% block title %}{{ title or app.name }}{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     {% block head %}
 

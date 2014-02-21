@@ -7,6 +7,6 @@ module.exports = function routes() {
     this.get('/registration', 'user#registrationPage', { as: 'registration' });
     this.post('/registration', 'user#register');
 
-    this.namespace('admin', require('./admin-routes'));
+    this.namespace('admin', require('./admin'));
 
 };

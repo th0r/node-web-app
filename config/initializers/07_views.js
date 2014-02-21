@@ -1,23 +1,32 @@
 var path = require('path');
-var swig = require('swig');
+var nunjucks = require('nunjucks');
 var viewsDir = path.resolve(__dirname, '../../app/views');
 
 module.exports = function () {
     var isProd = (this.get('env') === 'production');
 
-    swig.setDefaults({
-        loader: swig.loaders.fs(viewsDir),
-        locals: {
-            STATIC_ROOT: this.get('static root'),
-            app: {
-                name: this.get('app name')
-            }
-        },
-        cache: isProd ? 'memory' : null
+    var env = nunjucks.configure(viewsDir, {
+        autoescape: true,
+        watch: !isProd,
+        express: this.express
     });
 
-    this.engine('html', swig.renderFile);
-    this.set('view engine', 'html');
+    env.addFilter('addslashes', function (str) {
+        return str.replace(/['"\\]/g, '\\$&');
+    });
+
+    env.addExtension('ScriptExtension', require('../../app/template/extensions/script'));
+
+    this.locals({
+        static: this.get('static'),
+        app: {
+            name: this.get('app name')
+        }
+    });
+
+    // TODO: how to set ".html" as default views
+//    this.engine('html', swig.renderFile);
+//    this.set('view engine', 'html');
     this.set('views', viewsDir);
     // Disabling "Express" view cache (using "Swig" templates caching)
     this.set('view cache', false);

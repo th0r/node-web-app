@@ -3,17 +3,12 @@
 {% set pageType = 'users' %}
 
 {% block vendorScripts %}
-    {% parent %}
+    {{ super() }}
     {{ asset.jsVendor('jquery.datatables') }}
 {% endblock %}
 
 {% block navLineItems %}
     {{ navLineItem('Пользователи', adminUsersPath()) }}
-    {% if user %}
-        {{ navLineItem(user.email, editAdminUserPath(user), true) }}
-    {% else %}
-        {{ navLineItem('Неизвестный пользователь', null, true) }}
-    {% endif %}
 {% endblock %}
 
 {% block header %}
@@ -37,7 +32,7 @@
             var linkToUser = _.template('<a href="<%- url %>"><%- email %></a>');
 
             $('#usersTable').dataTable({
-                sAjaxSource: '{{ adminUsersTablePath() | addslashes }}',
+                sAjaxSource: '{{ adminUsersTablePath() | addslashes | safe }}',
                 aoColumns: [
                     {
                         sName: 'email',

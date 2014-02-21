@@ -6,7 +6,7 @@ module.exports = function (roles) {
             next();
         } else {
             this.res.statusCode = 403;
-            this.render('errors/403');
+            this.render('errors/403.html');
         }
     }
 };
