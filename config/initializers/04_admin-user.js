@@ -10,7 +10,7 @@ module.exports = function (done) {
     console.log('Loading admin user from "config/admin.json"...');
     try {
         adminInfo = require('../admin.json');
-        console.log('Admin user loaded:', adminInfo);
+        console.log('Admin user loaded:', adminInfo.email);
     } catch (e) {
         console.log('There is no admin user provided');
         return done();

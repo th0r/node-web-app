@@ -51,7 +51,7 @@
 
         {% block appScripts %}
             <script>var App = {};</script>
-            {{ asset.js('common') }}
+            {% script admin 'common' %}
         {% endblock %}
     {% endblock %}
 </head>

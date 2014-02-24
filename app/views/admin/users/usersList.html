@@ -4,7 +4,7 @@
 
 {% block vendorScripts %}
     {{ super() }}
-    {{ asset.jsVendor('jquery.datatables') }}
+    {% script vendor 'jquery.datatables' %}
 {% endblock %}
 
 {% block navLineItems %}

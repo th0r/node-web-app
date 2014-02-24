@@ -35,11 +35,6 @@ extend(ScriptExtension, {
                 tok.lineno, tok.colno);
         }
 
-        if (!scriptPath) {
-            parser.fail(tagName + ' tag: path to script is empty.',
-                tok.lineno, tok.colno);
-        }
-
         parser.advanceAfterBlockEnd(tagName);
 
         args = new nodes.NodeList(line, col, [
@@ -55,9 +50,9 @@ extend(ScriptExtension, {
     },
 
     generateUrl: function (context, type, path) {
-        var config = context.static;
-        var aliases = config.aliases;
-        var url = [config.staticRoot || '/static'];
+        var staticConfig = context.ctx.config.static;
+        var aliases = staticConfig.aliases || {};
+        var url = [staticConfig.root || '/static'];
         var scriptName;
         var isRootType;
 

@@ -18,7 +18,7 @@ module.exports = function () {
     env.addExtension('ScriptExtension', require('../../app/template/extensions/script'));
 
     this.locals({
-        static: this.get('static'),
+        config: this.get('config'),
         app: {
             name: this.get('app name')
         }

@@ -1,4 +1,5 @@
 var pkg = require('../../package.json');
+var config = {};
 var staticConfig;
 
 try {
@@ -12,6 +13,9 @@ try {
 module.exports = function () {
 
     this.set('app name', pkg.name);
-    this.set('static', staticConfig);
+    
+    // App config
+    config.static = staticConfig;
+    this.set('config', config);
 
 };
