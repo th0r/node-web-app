@@ -1,13 +1,13 @@
-{% import 'admin/macros/assets.html' as asset %}
+{% import 'admin/macros/assets.html' as asset -%}
 
 {% macro navMenuItem(title, icon, href, hint, active) %}
 <li{% if active %} class="active"{% endif %}><a href="{{ href }}" title="{{ hint }}"><i class="icon-{{ icon }}"></i>{{ title }}</a></li>
-{% endmacro %}
+{% endmacro -%}
 
 {% macro navLineItem(title, link, isLast) %}
 {% if link %}{% set tag = 'a' %}{% else %}{% set tag = 'span' %}{% endif -%}
 <li{% if isLast %} class="active"{% endif %}><{{ tag }}{% if link %} href="{{ link }}"{% endif %}>{{ title }}</{{ tag }}></li>
-{% endmacro %}
+{% endmacro -%}
 
 {% macro header(title, description) %}
 <div class="page-header">
@@ -18,7 +18,7 @@
         {% endif %}
     </div>
 </div>
-{% endmacro %}
+{% endmacro -%}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -40,18 +40,18 @@
 
     {% block scripts %}
         {% block vendorScripts %}
-            {{ asset.jsVendor('jquery') }}
-            {{ asset.jsVendor('jquery-ui') }}
-            {{ asset.jsVendor('bootstrap') }}
-            {{ asset.jsVendor('vue') }}
-            {{ asset.jsVendor('lodash') }}
-            {{ asset.jsVendor('jquery.collapsible') }}
-            {{ asset.jsVendor('jquery.uniform') }}
+            {% script vendor 'jquery' %}
+            {% script vendor 'jquery-ui' %}
+            {% script vendor 'bootstrap' %}
+            {% script vendor 'vue' %}
+            {% script vendor 'lodash' %}
+            {% script vendor 'jquery.collapsible' %}
+            {% script vendor 'jquery.uniform' %}
         {% endblock %}
 
         {% block appScripts %}
             <script>var App = {};</script>
-            {{ asset.js('common') }}
+            {% script admin 'common' %}
         {% endblock %}
     {% endblock %}
 </head>

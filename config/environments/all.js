@@ -1,8 +1,21 @@
 var pkg = require('../../package.json');
+var config = {};
+var staticConfig;
+
+try {
+    staticConfig = require('../static');
+} catch (e) {
+    staticConfig = {
+        root: '/static'
+    };
+}
 
 module.exports = function () {
 
     this.set('app name', pkg.name);
-    this.set('static root', '/static');
+    
+    // App config
+    config.static = staticConfig;
+    this.set('config', config);
 
 };

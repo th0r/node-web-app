@@ -12,16 +12,10 @@ var UserController = function () {
 extend(UserController, ApplicationController, {
 
     loginPage: function () {
-        this.scripts = [
-            ['app', 'user/login']
-        ];
         this.render('loginPage');
     },
 
     registrationPage: function () {
-        this.scripts = [
-            ['app', 'user/registration']
-        ];
         this.render('registrationPage');
     },
 

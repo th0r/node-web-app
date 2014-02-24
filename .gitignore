@@ -2,6 +2,7 @@ node_modules/
 npm-debug.log
 
 /config/db.json
+/config/static.json
 /config/secrets.json
 /config/admin.json
 
