@@ -98,7 +98,7 @@ gulp.task('server', ['build'], function () {
                     '.git',
                     'node_modules/**/node_modules',
                     'gulpfile.js',
-                    'app/pages',
+                    'app/scripts',
                     'public',
                     'vendor'
                 ]
