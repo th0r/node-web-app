@@ -14,6 +14,7 @@ var exposify = require('exposify');
 var bowerScripts = require('gulp-bower-files');
 var stylus = require('gulp-stylus');
 var csso = require('gulp-csso');
+var concatCSS = require('gulp-concat-css');
 var imagemin = require('gulp-imagemin');
 var nodemon = require('nodemon');
 var isProd = util.env.production;
@@ -33,37 +34,29 @@ var src = {
     },
     styles: {
         app: {
-            main: ['app/styles/**/*.{styl,css}', '!app/styles/**/includes/*.{styl,css}'],
+            main: ['app/styles/**/*.{styl,css}', '!app/styles/**/includes/**/*.{styl,css}'],
             all: ['app/styles/**/*.{styl,css}']
         },
         vendor: []
     },
     img: {
-        app: ['app/styles/**/img/*.*'],
+        app: ['app/styles/**/*.{jpeg,jpg,gif,png}'],
         vendor: []
     },
     fonts: {
-        app: ['app/styles/**/fonts/*.*'],
+        app: ['app/styles/**/*.{woff,ttf,otf,eot,svg}'],
         vendor: []
     }
 };
 
 var dest = {
     scripts: {
-        app: 'public/app/js',
-        vendor: 'public/vendor/js'
+        app: 'public/app/scripts',
+        vendor: 'public/vendor/scripts'
     },
-    styles: {
-        app: 'public/app/css',
-        vendor: 'public/vendor/css'
-    },
-    img: {
-        app: 'public/app/img',
-        vendor: 'public/vendor/img'
-    },
-    fonts: {
-        app: 'public/app/fonts',
-        vendor: 'public/vendor/fonts'
+    assets: {
+        app: 'public/app/styles',
+        vendor: 'public/vendor/styles'
     }
 };
 
@@ -125,7 +118,7 @@ gulp.task('server', ['build'], function () {
 
 // ==================================== Build ====================================
 
-gulp.task('build', ['scripts', 'styles']);
+gulp.task('build', ['scripts', 'assets']);
 
 // ==================================== Scripts ====================================
 
@@ -182,19 +175,22 @@ gulp.task('clean.scripts.vendor', function () {
         .pipe(clean());
 });
 
-// ==================================== Styles ====================================
+// ==================================== Assets ====================================
 
-gulp.task('styles', ['styles.app', 'styles.vendor', 'fonts.app', 'fonts.vendor', 'img.app', 'img.vendor']);
+gulp.task('assets', ['styles.app', 'styles.vendor', 'fonts.app', 'fonts.vendor', 'img.app', 'img.vendor']);
 
 gulp.task('styles.app', ['clean.styles.app'], function () {
     return gulp
         .src(src.styles.app.main)
+        // Inline @import statements for "admin/styles.css" file
+        .pipe(gulpif(/\/admin\/styles\.css$/, concatCSS('admin/styles.css')))
+        // Compile *.styl files
         .pipe(gulpif(/\.styl$/, stylus({
             use: ['nib'],
-            set: ['include css'].concat(isProd ? [] : ['firebug', 'linenos'])
+            set: ['resolve url', 'include css'].concat(isProd ? [] : ['linenos'])
         })))
         .pipe(gulpif(isProd, csso()))
-        .pipe(gulp.dest(dest.styles.app));
+        .pipe(gulp.dest(dest.assets.app));
 });
 
 gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
@@ -204,13 +200,13 @@ gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
         return gulp
             .src(files)
             .pipe(gulpif(isProd, csso()))
-            .pipe(gulp.dest(dest.styles.vendor));
+            .pipe(gulp.dest(dest.assets.vendor));
     }
 });
 
 gulp.task('clean.styles.app', function () {
     return gulp
-        .src(dest.styles.app, {
+        .src(dest.assets.app, {
             read: false
         })
         .pipe(clean());
@@ -218,89 +214,63 @@ gulp.task('clean.styles.app', function () {
 
 gulp.task('clean.styles.vendor', function () {
     return gulp
-        .src(dest.styles.vendor, {
+        .src(dest.assets.vendor, {
             read: false
         })
         .pipe(clean());
 });
 
-gulp.task('fonts.app', ['clean.fonts.app'], function () {
+gulp.task('fonts.app', ['clean.styles.app'], function () {
     var files = src.fonts.app;
 
     if (files.length) {
         return gulp
             .src(src.fonts.app)
-            .pipe(rename(function (path) {
+            /*.pipe(rename(function (path) {
                 // Removing tailing "/fonts" directory
                 path.dirname = path.dirname.replace(/\/?fonts$/, '');
-            }))
-            .pipe(gulp.dest(dest.fonts.app));
+            }))*/
+            .pipe(gulp.dest(dest.assets.app));
     }
 });
 
-gulp.task('clean.fonts.app', function () {
-    return gulp
-        .src(dest.fonts.app, {
-            read: false
-        })
-        .pipe(clean());
-});
-
-gulp.task('fonts.vendor', ['clean.fonts.vendor'], function () {
+gulp.task('fonts.vendor', ['clean.styles.vendor'], function () {
     var files = src.fonts.vendor;
 
     if (files.length) {
         return gulp
             .src(files)
-            .pipe(gulp.dest(dest.fonts.vendor));
+            .pipe(gulp.dest(dest.assets.vendor));
     }
 });
 
-gulp.task('clean.fonts.vendor', function () {
-    return gulp
-        .src(dest.fonts.vendor, {
-            read: false
-        })
-        .pipe(clean());
-});
-
-gulp.task('img.app', ['clean.img.app'], function () {
+gulp.task('img.app', ['clean.styles.app'], function () {
     var files = src.img.app;
+    var stream;
 
     if (files.length) {
-        return gulp
-            .src(src.img.app)
-            .pipe(rename(function (path) {
+        stream = gulp
+            .src(src.img.app);
+            /*.pipe(rename(function (path) {
                 // Removing tailing "/img" directory
                 path.dirname = path.dirname.replace(/\/?img$/, '');
-            }))
-            .pipe(gulpif(isProd, imagemin()))
-            .pipe(gulp.dest(dest.img.app));
+            }));*/
+
+        if (isProd) {
+            // TODO: can't use gulpif here because of https://github.com/sindresorhus/gulp-imagemin/issues/11
+            stream = stream.pipe(imagemin());
+        }
+
+        return stream.pipe(gulp.dest(dest.assets.app));
     }
 });
 
-gulp.task('clean.img.app', function () {
-    return gulp
-        .src(dest.img.app, {
-            read: false
-        })
-        .pipe(clean());
-});
-
-gulp.task('img.vendor', ['clean.img.vendor'], function () {
+gulp.task('img.vendor', ['clean.styles.vendor'], function () {
     var files = src.img.vendor;
 
     if (files.length) {
         return gulp
             .src(files)
-            .pipe(gulp.dest(dest.img.vendor));
+            .pipe(gulp.dest(dest.assets.vendor));
     }
-});
-
-gulp.task('clean.img.vendor', function () {
-    return gulp
-        .src(dest.img.vendor, {
-            read: false
-        })
-        .pipe(clean());
 });

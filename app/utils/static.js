@@ -26,17 +26,17 @@ function makeStaticUrlMethod(subdir, extension, aliasesKey) {
 
 module.exports = {
 
-    script: makeStaticUrlMethod('js', '.js', 'scripts'),
-    style: makeStaticUrlMethod('css', '.css', 'styles'),
+    script: makeStaticUrlMethod('scripts', '.js', 'scripts'),
+    style: makeStaticUrlMethod('styles', '.css', 'styles'),
     image: function (staticConfig, path, type) {
         var url = [staticConfig.root];
 
         type = type || 'app';
-        url.push(type === 'vendor' ? type : 'app', 'img');
+        url.push(type === 'vendor' ? type : 'app', 'styles');
         if (type !== 'app' && type !== 'vendor') {
             url.push(type);
         }
-        url.push(path);
+        url.push('img', path);
 
         return url.join('/');
     }

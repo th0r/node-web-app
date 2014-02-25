@@ -3,8 +3,8 @@
     font-style: normal;
     font-weight: 400;
     src: local('Open Sans'), local('OpenSans'),
-    url(../fonts/OpenSans-Regular.woff) format('woff'),
-    url(../fonts/OpenSans-Regular.ttf) format('ttf');
+    url('../fonts/OpenSans-Regular.woff') format('woff'),
+    url('../fonts/OpenSans-Regular.ttf') format('ttf');
 }
 
 @font-face {
@@ -12,8 +12,8 @@
     font-style: normal;
     font-weight: 600;
     src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
-    url(../fonts/OpenSans-Semibold.woff) format('woff'),
-    url(../fonts/OpenSans-Semibold.ttf) format('ttf');
+    url('../fonts/OpenSans-Semibold.woff') format('woff'),
+    url('../fonts/OpenSans-Semibold.ttf') format('ttf');
 }
 
 @font-face {
@@ -21,6 +21,6 @@
     font-style: normal;
     font-weight: 800;
     src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'),
-    url(../fonts/OpenSans-Extrabold.woff) format('woff'),
-    url(../fonts/OpenSans-ExtraBold.ttf) format('ttf');
+    url('../fonts/OpenSans-Extrabold.woff') format('woff'),
+    url('../fonts/OpenSans-ExtraBold.ttf') format('ttf');
 }

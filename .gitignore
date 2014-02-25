@@ -7,8 +7,5 @@ npm-debug.log
 /config/admin.json
 
 /vendor/bower
-/public/app/js
-/public/app/css
-/public/app/fonts
+/public/app
 /public/vendor
-

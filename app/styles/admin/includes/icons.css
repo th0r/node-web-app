@@ -12,7 +12,7 @@
 * ======================================================== */
 
 
-[class^="ico-"], [class*=" ico-"] { display: inline-block; width: 14px; height: 14px; line-height: 14px; vertical-align: text-top; background-image: url("../img/icons/glyphicons-halflings.png"); background-position: 14px 14px; background-repeat: no-repeat; }
+[class^="ico-"], [class*=" ico-"] { display: inline-block; width: 14px; height: 14px; line-height: 14px; vertical-align: text-top; background-image: url('../img/icons/glyphicons-halflings.png'); background-position: 14px 14px; background-repeat: no-repeat; }
 
 .btn [class^="ico-"], .btn [class*=" ico-"] { margin-top: -1px; margin-bottom: -1px; float: left; }
 .btn.btn-large [class^="ico-"] { margin-top: 1px; margin-bottom: 0; }
@@ -43,7 +43,7 @@
 .dropdown-menu > .active > a > [class*=" ico-"],
 .dropdown-submenu:hover > a > [class^="ico-"],
 .dropdown-submenu:hover > a > [class*=" ico-"] {
-  background-image: url("../img/icons/glyphicons-halflings-white.png");
+  background-image: url('../img/icons/glyphicons-halflings-white.png');
 }
 
 .ico-glass { background-position: 0 0; }
