@@ -4,16 +4,11 @@
 
 {% block vendorScripts %}
     {% parent %}
-    {{ asset.jsVendor('jquery.datatables') }}
+    {% script 'vendor' 'jquery.datatables' %}
 {% endblock %}
 
 {% block navLineItems %}
     {{ navLineItem('Пользователи', adminUsersPath()) }}
-    {% if user %}
-        {{ navLineItem(user.email, editAdminUserPath(user), true) }}
-    {% else %}
-        {{ navLineItem('Неизвестный пользователь', null, true) }}
-    {% endif %}
 {% endblock %}
 
 {% block header %}

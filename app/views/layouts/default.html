@@ -1,5 +1,3 @@
-{% import 'macros/assets.html' as include %}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,19 +6,22 @@
     {% block head %}
 
         {% block styles %}
-            {{ include.css('app', 'styles') }}
-            {% for style in styles %}
-                {{ include.css(style[0], style[1]) }}
-            {% endfor %}
+            {% block vendorStyles %}{% endblock %}
+
+            {% block appStyles %}
+                {% style 'styles' %}
+            {% endblock %}
         {% endblock %}
 
         {% block scripts %}
-            <script>App = {};</script>
-            {{ include.js('vendor', 'jquery') }}
-            {{ include.js('vendor', 'vue') }}
-            {% for script in scripts %}
-                {{ include.js(script[0], script[1]) }}
-            {% endfor %}
+            {% block vendorScripts %}
+                {% script 'vendor' 'jquery' %}
+                {% script 'vendor' 'vue' %}
+            {% endblock %}
+    
+            {% block appScripts %}
+                <script>var App = {};</script>
+            {% endblock %}
         {% endblock %}
 
     {% endblock %}

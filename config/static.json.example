@@ -1,0 +1,20 @@
+// This config can be used to set custom root for scripts and styles, which defaults to "/static".
+// You can also override paths to files using "aliases" object.
+{
+    "root": "http://static.your-domain.ru",
+    "aliases": {
+        "scripts": {
+            "app": {
+                "login": "login.md5hash"
+            },
+            "vendor": {
+                "jquery": "http://code.jquery.com/jquery.min.js"
+            }
+        },
+        "styles": {
+            "vendor": {
+                "bootstrap": "bootstrap.md5hash"
+            }
+        }
+    }
+}

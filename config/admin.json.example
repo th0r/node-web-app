@@ -1,0 +1,6 @@
+// This config file can be used to automatically add admin user.
+// This admin will be added only if there are no admin users in the DB yet.
+{
+    "email": "grunin.ya@ya.ru",
+    "password": "123456"
+}
