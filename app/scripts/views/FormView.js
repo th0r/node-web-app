@@ -36,15 +36,14 @@ var Form = Vue.extend({
             }
 
             var self = this;
-            var form = event.el;
+            var form = event.target;
             var validationErrors = this.validationErrors;
 
+            self.formError = null;
             if (this._hasValidationErrors(validationErrors)) {
                 this.fieldErrors = validationErrors;
                 return;
             }
-
-            self.formError = null;
             self.fieldErrors = {};
 
             this.submitting = true;
