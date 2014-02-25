@@ -10,7 +10,7 @@ module.exports = function () {
     if (!secrets) {
         try {
             console.log('Generating one...');
-            secrets = require('../secrets-generator')();
+            secrets = require('../utils/secretsGenerator')();
         } catch(e) {
             console.error('Error generating secrets file.', e.message);
             console.log(e.stack);

@@ -33,25 +33,25 @@
         {% block vendorStyles %}{% endblock %}
 
         {% block appStyles %}
-            {{ asset.css('styles') }}
-            <!--[if IE 8]>{{ asset.css('ie8') }}<![endif]-->
+            {% style 'admin' 'styles' %}
+            <!--[if IE 8]>{% style 'admin' 'ie8' %}<![endif]-->
         {% endblock %}
     {% endblock %}
 
     {% block scripts %}
         {% block vendorScripts %}
-            {% script vendor 'jquery' %}
-            {% script vendor 'jquery-ui' %}
-            {% script vendor 'bootstrap' %}
-            {% script vendor 'vue' %}
-            {% script vendor 'lodash' %}
-            {% script vendor 'jquery.collapsible' %}
-            {% script vendor 'jquery.uniform' %}
+            {% script 'vendor' 'jquery' %}
+            {% script 'vendor' 'jquery-ui' %}
+            {% script 'vendor' 'bootstrap' %}
+            {% script 'vendor' 'vue' %}
+            {% script 'vendor' 'lodash' %}
+            {% script 'vendor' 'jquery.collapsible' %}
+            {% script 'vendor' 'jquery.uniform' %}
         {% endblock %}
 
         {% block appScripts %}
             <script>var App = {};</script>
-            {% script admin 'common' %}
+            {% script 'admin' 'common' %}
         {% endblock %}
     {% endblock %}
 </head>
@@ -61,13 +61,13 @@
 <!-- Fixed top -->
 <div id="top">
     <div class="fixed">
-        <a href="index.html" title="" class="logo"><img src="{{ asset.img('logo.png') }}" alt=""/></a>
+        <a href="index.html" title="" class="logo"><img src="{% img 'admin' 'logo.png' %}" alt=""/></a>
         <ul class="top-menu">
             <li><a class="fullview"></a></li>
             <li><a class="showmenu"></a></li>
             <li><a href="#" title="" class="messages"><i class="new-message"></i></a></li>
             <li class="dropdown">
-                <a class="user-menu" data-toggle="dropdown"><img src="{{ asset.img('userpic.png') }}" alt=""/><span>Howdy, Eugene! <b
+                <a class="user-menu" data-toggle="dropdown"><img src="{% img 'admin' 'userpic.png' %}" alt=""/><span>Howdy, Eugene! <b
                     class="caret"></b></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="#" title=""><i class="icon-user"></i>Profile</a></li>

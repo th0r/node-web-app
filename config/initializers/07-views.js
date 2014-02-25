@@ -1,5 +1,6 @@
 var path = require('path');
 var swig = require('swig');
+var extendSwig = require('../../app/template/extend');
 var viewsDir = path.resolve(__dirname, '../../app/views');
 
 module.exports = function () {
@@ -15,6 +16,7 @@ module.exports = function () {
         },
         cache: isProd ? 'memory' : null
     });
+    extendSwig(swig);
 
     this.engine('html', swig.renderFile);
     this.set('view engine', 'html');

@@ -6,16 +6,17 @@
     {% block head %}
 
         {% block styles %}
-            {{ include.css('app', 'styles') }}
-            {% for style in styles %}
-                {{ include.css(style[0], style[1]) }}
-            {% endfor %}
+            {% block vendorStyles %}{% endblock %}
+
+            {% block appStyles %}
+                {% style 'styles' %}
+            {% endblock %}
         {% endblock %}
 
         {% block scripts %}
             {% block vendorScripts %}
-                {% script vendor 'jquery' %}
-                {% script vendor 'vue' %}
+                {% script 'vendor' 'jquery' %}
+                {% script 'vendor' 'vue' %}
             {% endblock %}
     
             {% block appScripts %}
