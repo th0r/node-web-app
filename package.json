@@ -43,6 +43,6 @@
     "event-stream": "~3.1.0",
     "gulp-bower-files": "~0.1.8",
     "gulp-imagemin": "~0.1.5",
-    "gulp-concat-css": "~0.1.1"
+    "gulp-concat-css": "git://github.com/th0r/gulp-concat-css.git#improved-regexp"
   }
 }
