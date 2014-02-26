@@ -131,9 +131,6 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             transform: [exposify],
             debug: !isProd
         }))
-        .pipe(rename(function (path) {
-            path.basename = path.basename.replace(/Page$/, '');
-        }))
         .pipe(gulpif(isProd, uglify()))
         .pipe(gulp.dest(dest.scripts.app));
 });
@@ -226,10 +223,6 @@ gulp.task('fonts.app', ['clean.styles.app'], function () {
     if (files.length) {
         return gulp
             .src(src.fonts.app)
-            /*.pipe(rename(function (path) {
-                // Removing tailing "/fonts" directory
-                path.dirname = path.dirname.replace(/\/?fonts$/, '');
-            }))*/
             .pipe(gulp.dest(dest.assets.app));
     }
 });
@@ -251,10 +244,6 @@ gulp.task('img.app', ['clean.styles.app'], function () {
     if (files.length) {
         stream = gulp
             .src(src.img.app);
-            /*.pipe(rename(function (path) {
-                // Removing tailing "/img" directory
-                path.dirname = path.dirname.replace(/\/?img$/, '');
-            }));*/
 
         if (isProd) {
             // TODO: can't use gulpif here because of https://github.com/sindresorhus/gulp-imagemin/issues/11
