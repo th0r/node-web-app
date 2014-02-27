@@ -34,7 +34,7 @@
     "gulp-rename": "~1.1.0",
     "gulp-clean": "~0.2.4",
     "gulp-uglify": "~0.2.1",
-    "gulp-stylus": "~0.0.12",
+    "gulp-stylus": "git://github.com/th0r/gulp-stylus.git#resolve-url",
     "gulp-csso": "~0.2.3",
     "gulp-browserify": "~0.4.4",
     "exposify": "~0.1.3",
