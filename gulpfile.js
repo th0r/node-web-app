@@ -118,7 +118,22 @@ gulp.task('server', ['build'], function () {
 
 // ==================================== Build ====================================
 
-gulp.task('build', ['scripts', 'assets']);
+gulp.task('build', ['scripts', 'assets'], function () {
+    if (isProd) {
+        // Pre-gzipping assets
+        util.log('Pre-compressing static files...');
+
+        return gulp
+            .src('**/*.{js,css,ttf,svg}', {
+                cwd: 'public'
+            })
+            .pipe(gzip())
+            .pipe(gulp.dest('public'))
+            .on('end', function () {
+                util.log('Static files have been precompressed');
+            });
+    }
+});
 
 // ==================================== Scripts ====================================
 

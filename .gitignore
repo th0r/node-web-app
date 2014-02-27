@@ -9,3 +9,4 @@ npm-debug.log
 /vendor/bower
 /public/app
 /public/vendor
+/public/**/*.gz
