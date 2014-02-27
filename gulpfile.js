@@ -146,7 +146,7 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             transform: [exposify],
             debug: !isProd
         }))
-        .pipe(gulpif(isProd, uglify()))
+        .pipe(isProd ? uglify() : util.noop())
         .pipe(gulp.dest(dest.scripts.app));
 });
 
@@ -201,7 +201,7 @@ gulp.task('styles.app', ['clean.styles.app'], function () {
             use: ['nib'],
             set: ['resolve url', 'include css'].concat(isProd ? [] : ['linenos'])
         })))
-        .pipe(gulpif(isProd, csso()))
+        .pipe(isProd ? csso() : util.noop())
         .pipe(gulp.dest(dest.assets.app));
 });
 
@@ -211,7 +211,7 @@ gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
     if (files.length) {
         return gulp
             .src(files)
-            .pipe(gulpif(isProd, csso()))
+            .pipe(isProd ? csso() : util.noop())
             .pipe(gulp.dest(dest.assets.vendor));
     }
 });
@@ -258,14 +258,9 @@ gulp.task('img.app', ['clean.styles.app'], function () {
 
     if (files.length) {
         stream = gulp
-            .src(src.img.app);
-
-        if (isProd) {
-            // TODO: can't use gulpif here because of https://github.com/sindresorhus/gulp-imagemin/issues/11
-            stream = stream.pipe(imagemin());
-        }
-
-        return stream.pipe(gulp.dest(dest.assets.app));
+            .src(src.img.app)
+            .pipe(isProd ? imagemin() : util.noop())
+            .pipe(gulp.dest(dest.assets.app));
     }
 });
 
