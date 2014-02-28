@@ -1,4 +1,5 @@
 {% extends 'admin/layouts/default.html' %}
+{% import 'admin/macros/form.html' as form %}
 
 {% set pageType = 'users' %}
 
@@ -19,35 +20,28 @@
 
 {% block content %}
     {% if user %}
-        <form id="userForm" class="form-horizontal" action="{{ adminUserPath(user) | e }}" method="post" novalidate>
+        <form class="form-horizontal" action="{{ adminUserPath(user) | e }}" method="post" novalidate
+              v-component="form"
+              v-with="userForm">
             <input type="hidden" name="_method" value="put">
             <fieldset>
                 <div class="widget row-fluid">
                     <div class="well">
-                        {% if error %}
-                            <div class="alert margin">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ error }}
-                            </div>
-                        {% endif %}
+                        {{ form.error() }}
 
                         <div class="control-group">
-                            <label for="id" class="control-label">ID:</label>
-                            <div class="controls">
-                                <input id="id" name="_id" type="text" class="span12" value="{{ user._id.toString() }}" readonly/>
-                            </div>
+                            {{ form.input('ID', '_id', user._id.toString(), { readonly: true }) }}
                         </div>
 
                         <div class="control-group">
-                            <label for="email" class="control-label">Email:</label>
-                            <div class="controls">
-                                <input id="email" name="email" type="email" class="span12" value="{{ user.email }}"/>
-                            </div>
+                            {{ form.input('Email', 'email', user.email, { type: 'email' }) }}
                         </div>
 
                         <div class="form-actions align-center">
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
-                            <button type="reset" class="btn">Сбросить изменения</button>
+                            <button type="submit" class="btn btn-primary"
+                                    v-attr="disabled: !submittionAllowed">Сохранить</button>
+                            <button type="reset" class="btn"
+                                    v-attr="disabled: submitting">Сбросить изменения</button>
                         </div>
 
                     </div>
@@ -61,10 +55,13 @@
 
 {% block pageScript %}
 <script>
-    var userForm = new Vue({
+    App.data = {
+        userForm: {}
+    };
 
-        el: '#userForm'
-
+    App.page = new Vue({
+        el: document.documentElement,
+        data: App.data
     });
 </script>
 {% endblock %}

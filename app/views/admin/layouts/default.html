@@ -1,5 +1,3 @@
-{% import 'admin/macros/assets.html' as asset -%}
-
 {% macro navMenuItem(title, icon, href, hint, active) %}
 <li{% if active %} class="active"{% endif %}><a href="{{ href }}" title="{{ hint }}"><i class="icon-{{ icon }}"></i>{{ title }}</a></li>
 {% endmacro -%}
@@ -51,6 +49,7 @@
 
         {% block appScripts %}
             <script>var App = {};</script>
+            {% script 'admin' 'components' %}
             {% script 'admin' 'common' %}
         {% endblock %}
     {% endblock %}

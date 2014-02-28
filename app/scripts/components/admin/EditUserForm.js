@@ -1,6 +1,6 @@
-var FormView = require('./FormView');
+var Form = require('../Form');
 
-var LoginFormView = FormView.extend({
+var EditUserForm = Form.extend({
 
     computed: {
 
@@ -23,4 +23,6 @@ var LoginFormView = FormView.extend({
 
 });
 
-module.exports = LoginFormView;
+EditUserForm.name = 'edit-user-form';
+
+module.exports = EditUserForm;

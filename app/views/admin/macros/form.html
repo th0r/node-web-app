@@ -1,0 +1,17 @@
+{% macro error(src) %}
+<div v-cloak v-if="formError" class="alert margin">
+    <span v-text="formError"></span>
+</div>
+{%- endmacro %}
+
+{% macro input(label, name, value, attrs) %}
+<label for="{{ attrs.id || name }}" class="control-label">{{ label }}:</label>
+<div class="controls">
+    <input id="{{ attrs.id || name }}" name="{{ name }}" type="{{ attrs.type || 'text' }}" class="span12" value="{{ value }}"
+           {%- if attrs.readonly %} readonly{% endif %}
+           v-model="fields.{{ name }}"
+           v-class="error: fieldErrors.{{ name }}"
+    />
+    <div class="error-message" v-cloak v-if="fieldErrors.{{ name }}" v-text="fieldErrors.{{ name }}"></div>
+</div>
+{% endmacro %}

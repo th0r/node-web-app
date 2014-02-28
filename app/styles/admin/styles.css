@@ -5,3 +5,8 @@
 @import "includes/icons.css";
 @import "includes/jquery.custom.css";
 @import "includes/main.css";
+
+/* Hiding uninitialized Vue nodes */
+[v-cloak] {
+    display: none;
+}

@@ -4,6 +4,7 @@ var Vue = require('vue');
 var Form = Vue.extend({
 
     created: function () {
+        console.log(1);
         this.fields = {};
         this.formError = null;
         this.fieldErrors = {};
@@ -74,5 +75,7 @@ var Form = Vue.extend({
 
     }
 });
+
+Form.name = 'form';
 
 module.exports = Form;

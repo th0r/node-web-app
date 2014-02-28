@@ -1,9 +1,9 @@
 var $ = require('jquery');
 var Vue = require('vue');
-var RegistrationFormView = require('../../views/RegistrationFormView');
+var RegistrationForm = require('../../components/RegistrationForm');
 
 $(function () {
 
-    App.registrationForm = new RegistrationFormView(App.registrationForm);
+    App.registrationForm = new RegistrationForm(App.registrationForm);
 
 });
