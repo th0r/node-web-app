@@ -254,10 +254,9 @@ gulp.task('fonts.vendor', ['clean.styles.vendor'], function () {
 
 gulp.task('img.app', ['clean.styles.app'], function () {
     var files = src.img.app;
-    var stream;
 
     if (files.length) {
-        stream = gulp
+        return gulp
             .src(src.img.app)
             .pipe(isProd ? imagemin() : util.noop())
             .pipe(gulp.dest(dest.assets.app));
