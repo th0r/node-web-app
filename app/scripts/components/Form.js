@@ -4,11 +4,15 @@ var Vue = require('vue');
 var Form = Vue.extend({
 
     created: function () {
-        console.log(1);
         this.fields = {};
+        this.successMessage = null;
         this.formError = null;
         this.fieldErrors = {};
         this.submitting = false;
+    },
+
+    ready: function () {
+        this.hideSuccessMessageTimeout = 2;
     },
 
     computed: {
@@ -48,8 +52,14 @@ var Form = Vue.extend({
             self.fieldErrors = {};
 
             this.submitting = true;
-            $.post(form.action, this.fields,
-                function (result) {
+            $.ajax(
+                {
+                    url: form.action,
+                    method: form._method ? form._method.value : form.method,
+                    data: this.fields
+                })
+                .done(function (result) {
+                    var successMessage;
                     var error = result.error;
 
                     if (error) {
@@ -57,6 +67,11 @@ var Form = Vue.extend({
                         self.fieldErrors = error.details || {};
 
                         return;
+                    }
+
+                    successMessage = self._getSuccessMessage(result);
+                    if (successMessage) {
+                        self.showSuccessMessage(successMessage);
                     }
 
                     if (result.redirectTo) {
@@ -69,13 +84,39 @@ var Form = Vue.extend({
                 });
         },
 
+        validate: function () {
+            this.fieldErrors = this.validationErrors || {};
+        },
+
+        showSuccessMessage: function (message) {
+            var self = this;
+            var hideTimeout = this.hideSuccessMessageTimeout;
+
+            this.hideSuccessMessage();
+            this.successMessage = message;
+            if (hideTimeout) {
+                this._hideSuccessMessageTimer = setTimeout(function () {
+                    self.hideSuccessMessage();
+                }, hideTimeout * 1000);
+            }
+        },
+
+        hideSuccessMessage: function () {
+            this.successMessage = '';
+            clearTimeout(this._hideSuccessMessageTimer);
+        },
+
         _hasValidationErrors: function (errors) {
             return !!errors && !$.isEmptyObject(errors);
+        },
+
+        _getSuccessMessage: function (responseResult) {
+            return responseResult.message;
         }
 
     }
 });
 
-Form.name = 'form';
+Form.componentName = 'form';
 
 module.exports = Form;

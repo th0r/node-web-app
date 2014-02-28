@@ -7,17 +7,6 @@
 <li{% if isLast %} class="active"{% endif %}><{{ tag }}{% if link %} href="{{ link }}"{% endif %}>{{ title }}</{{ tag }}></li>
 {% endmacro -%}
 
-{% macro header(title, description) %}
-<div class="page-header">
-    <div class="page-title">
-        <h5>{{ title }}</h5>
-        {% if description %}
-            <span>{{ description }}</span>
-        {% endif %}
-    </div>
-</div>
-{% endmacro -%}
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -115,7 +104,16 @@
             <!-- /breadcrumbs line -->
 
             <!-- Page header -->
-            {% block header %}{% endblock %}
+            {% block header %}
+                {% if !hideHeader %}
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h5>{% block headerTitle %}{% endblock %}</h5>
+                            <span>{% block headerDescription %}{% endblock %}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endblock %}
             <!-- /page header -->
 
             {% for message in flash.success %}

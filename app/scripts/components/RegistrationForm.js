@@ -23,6 +23,6 @@ var RegistrationForm = Form.extend({
 
 });
 
-RegistrationForm.name = 'registration-form';
+RegistrationForm.componentName = 'registration-form';
 
 module.exports = RegistrationForm;

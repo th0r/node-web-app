@@ -23,6 +23,6 @@ var LoginForm = Form.extend({
 
 });
 
-LoginForm.name = 'login-form';
+LoginForm.componentName = 'login-form';
 
 module.exports = LoginForm;

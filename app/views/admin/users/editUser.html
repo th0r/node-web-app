@@ -2,31 +2,31 @@
 {% import 'admin/macros/form.html' as form %}
 
 {% set pageType = 'users' %}
+{% set hideHeader = !user %}
 
 {% block navLineItems %}
     {{ navLineItem('Пользователи', adminUsersPath()) }}
     {% if user %}
-        {{ navLineItem(user.email, editAdminUserPath(user), true) }}
+        <li class="active"><a href="{{ editAdminUserPath(user) | e }}"><span v-text="userForm.fields.email || '...'">{{ user.email }}</span></a></li>
     {% else %}
         {{ navLineItem('Неизвестный пользователь', null, true) }}
     {% endif %}
 {% endblock %}
 
-{% block header %}
-    {% if user %}
-        {{ header('Пользователь ' + user.email, 'Редактирование учетной записи пользователя') }}
-    {% endif %}
-{% endblock %}
+{% block headerTitle %}Пользователь <span v-text="userForm.fields.email || '...'">{{ user.email }}</span>{% endblock %}
+{% block headerDescription %}Редактирование учетной записи пользователя</span>{% endblock %}
 
 {% block content %}
     {% if user %}
         <form class="form-horizontal" action="{{ adminUserPath(user) | e }}" method="post" novalidate
-              v-component="form"
-              v-with="userForm">
+              v-component="edit-user-form"
+              v-with="userForm"
+              v-on="submit: submit">
             <input type="hidden" name="_method" value="put">
             <fieldset>
                 <div class="widget row-fluid">
                     <div class="well">
+                        {{ form.success() }}
                         {{ form.error() }}
 
                         <div class="control-group">
