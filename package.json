@@ -9,7 +9,7 @@
     "prepublish": "bower install"
   },
   "dependencies": {
-    "locomotive": "~0.4.1",
+    "locomotive": "git://github.com/th0r/locomotive#resourses-route-helper-fix",
     "bootable": "0.2.x",
     "bootable-environment": "0.2.x",
     "express": "~3.4.8",
