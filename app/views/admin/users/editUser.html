@@ -55,13 +55,11 @@
 
 {% block pageScript %}
 <script>
-    App.data = {
-        userForm: {}
-    };
-
     App.page = new Vue({
         el: document.documentElement,
-        data: App.data
+        data: {
+            userForm: {}
+        }
     });
 </script>
 {% endblock %}
