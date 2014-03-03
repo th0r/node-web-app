@@ -1,0 +1,25 @@
+{% macro success %}
+<div v-cloak v-if="successMessage" class="alert alert-success margin">
+    <button class="close" type="button"
+        v-on="click: hideSuccessMessage">×</button>
+    <span v-text="successMessage"></span>
+</div>
+{%- endmacro %}
+
+{% macro error %}
+<div v-cloak v-if="formError" class="alert alert-error margin">
+    <span v-text="formError"></span>
+</div>
+{%- endmacro %}
+
+{% macro input(label, name, value, attrs) %}
+<label for="{{ attrs.id || name }}" class="control-label">{{ label }}:</label>
+<div class="controls">
+    <input id="{{ attrs.id || name }}" name="{{ name }}" type="{{ attrs.type || 'text' }}" class="span12" value="{{ value }}" autocomplete="off"
+           {%- if attrs.readonly %} readonly{% endif %}
+           v-model="fields.{{ name }}"
+           v-class="error: fieldErrors.{{ name }}"
+    />
+    <div class="error-message" v-cloak v-if="fieldErrors.{{ name }}" v-text="fieldErrors.{{ name }}"></div>
+</div>
+{% endmacro %}

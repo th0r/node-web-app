@@ -1,6 +1,6 @@
-var FormView = require('./FormView');
+var Form = require('./Form');
 
-var RegistrationFormView = FormView.extend({
+var RegistrationForm = Form.extend({
 
     computed: {
 
@@ -23,4 +23,6 @@ var RegistrationFormView = FormView.extend({
 
 });
 
-module.exports = RegistrationFormView;
+RegistrationForm.componentName = 'registration-form';
+
+module.exports = RegistrationForm;

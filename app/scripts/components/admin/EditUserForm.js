@@ -1,8 +1,12 @@
-var FormView = require('./FormView');
+var Form = require('../Form');
 
-var LoginFormView = FormView.extend({
+var EditUserForm = Form.extend({
 
     computed: {
+
+        submittionAllowed: function () {
+            return !this.submitting && this.valid;
+        },
 
         validationErrors: function () {
             var fields = this.fields;
@@ -12,10 +16,6 @@ var LoginFormView = FormView.extend({
                 errors.email = 'Введите email';
             }
 
-            if (!fields.password) {
-                errors.password = 'Введите пароль';
-            }
-
             return errors;
         }
 
@@ -23,4 +23,6 @@ var LoginFormView = FormView.extend({
 
 });
 
-module.exports = LoginFormView;
+EditUserForm.componentName = 'edit-user-form';
+
+module.exports = EditUserForm;

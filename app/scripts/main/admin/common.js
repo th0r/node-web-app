@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var Vue = require('vue');
 
 // ==================================== DataTables defaults ====================================
 if ($.fn.dataTable) {
@@ -55,6 +56,11 @@ if ($.fn.dataTable) {
         }
     });
 }
+
+// ==================================== Vue configuration ====================================
+Vue.config({
+    interpolate: false
+});
 
 $(function () {
 

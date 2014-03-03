@@ -5,9 +5,14 @@ var Form = Vue.extend({
 
     created: function () {
         this.fields = {};
+        this.successMessage = null;
         this.formError = null;
         this.fieldErrors = {};
         this.submitting = false;
+    },
+
+    ready: function () {
+        this.hideSuccessMessageTimeout = 2;
     },
 
     computed: {
@@ -47,8 +52,15 @@ var Form = Vue.extend({
             self.fieldErrors = {};
 
             this.submitting = true;
-            $.post(form.action, this.fields,
-                function (result) {
+            $.ajax(
+                {
+                    url: form.action,
+                    method: form._method ? form._method.value : form.method,
+                    data: this.fields,
+                    dataType: 'json'
+                })
+                .done(function (result) {
+                    var successMessage;
                     var error = result.error;
 
                     if (error) {
@@ -58,21 +70,56 @@ var Form = Vue.extend({
                         return;
                     }
 
+                    successMessage = self._getSuccessMessage(result);
+                    if (successMessage) {
+                        self.showSuccessMessage(successMessage);
+                    }
+
                     if (result.redirectTo) {
                         location.href = result.redirectTo;
                     }
-                },
-                'json')
+                })
+                .fail(function () {
+                    self.formError = 'Ошибка отправки формы. Попробуйте еще раз.';
+                })
                 .always(function () {
                     self.submitting = false;
                 });
         },
 
+        validate: function () {
+            this.fieldErrors = this.validationErrors || {};
+        },
+
+        showSuccessMessage: function (message) {
+            var self = this;
+            var hideTimeout = this.hideSuccessMessageTimeout;
+
+            this.hideSuccessMessage();
+            this.successMessage = message;
+            if (hideTimeout) {
+                this._hideSuccessMessageTimer = setTimeout(function () {
+                    self.hideSuccessMessage();
+                }, hideTimeout * 1000);
+            }
+        },
+
+        hideSuccessMessage: function () {
+            this.successMessage = '';
+            clearTimeout(this._hideSuccessMessageTimer);
+        },
+
         _hasValidationErrors: function (errors) {
             return !!errors && !$.isEmptyObject(errors);
+        },
+
+        _getSuccessMessage: function (responseResult) {
+            return responseResult.message;
         }
 
     }
 });
+
+Form.componentName = 'form';
 
 module.exports = Form;

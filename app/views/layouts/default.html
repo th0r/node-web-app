@@ -21,6 +21,7 @@
     
             {% block appScripts %}
                 <script>var App = {};</script>
+                {% script 'components' %}
             {% endblock %}
         {% endblock %}
 
@@ -28,5 +29,6 @@
 </head>
 <body>
     {% block content %}{% endblock %}
+    {% block pageScript %}{% endblock %}
 </body>
 </html>

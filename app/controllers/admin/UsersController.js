@@ -64,20 +64,13 @@ extend(AdminUsersController, AdminController, {
             .fail(this.jsonError.bind(this));
     },
 
-    edit: function (user) {
+    edit: function () {
         var self = this;
-
-        user = user || User.findById(this.req.params.id).exec();
+        var user = User.findById(this.req.params.id).exec();
 
         Q(user)
             .then(function (user) {
-                _.extend(self, {
-                    user: user,
-                    flash: {
-                        success: self.req.flash('success'),
-                        error: self.req.flash('error')
-                    }
-                });
+                self.user = user;
                 self.render('editUser');
             })
             .fail(function (err) {
@@ -103,19 +96,16 @@ extend(AdminUsersController, AdminController, {
 
                     return Q.ninvoke(user, 'save');
                 } else {
-                    throw 'notFound';
+                    throw 'Данного пользователя не существует';
                 }
             })
             .spread(function (user) {
-                self.req.flash('success', 'Учетная запись пользователя сохранена');
-                self.redirect(self.editAdminUserPath(user));
+                self.res.json({
+                    message: 'Учетная запись пользователя успешно изменена'
+                });
             })
             .fail(function (err) {
-                if (err === 'notFound') {
-                    return self.render('userNotFound');
-                }
-                self.req.flash('error', 'Ошибка изменения учетной записи пользователя: ' + err.message);
-                self.redirect(userId ? self.editAdminUserPath(userId) : self.adminUsersPath());
+                self.jsonError(err);
             });
     }
 
