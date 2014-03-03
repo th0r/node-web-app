@@ -141,7 +141,11 @@ gulp.task('scripts', ['scripts.app', 'scripts.vendor']);
 
 gulp.task('scripts.app', ['clean.scripts.app'], function () {
     return gulp
-        .src(src.scripts.app.main)
+        .src(src.scripts.app.main, {
+            // TODO: There is a bug either in "browserify" of "gulp-browserify", which doesn't allow to compile more than one
+            // script (problem with overriden `basedir` option). It can be fixed with `read: false` option.
+            read: false
+        })
         .pipe(browserify({
             transform: [exposify],
             debug: !isProd

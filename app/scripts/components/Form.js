@@ -56,7 +56,8 @@ var Form = Vue.extend({
                 {
                     url: form.action,
                     method: form._method ? form._method.value : form.method,
-                    data: this.fields
+                    data: this.fields,
+                    dataType: 'json'
                 })
                 .done(function (result) {
                     var successMessage;
@@ -77,8 +78,10 @@ var Form = Vue.extend({
                     if (result.redirectTo) {
                         location.href = result.redirectTo;
                     }
-                },
-                'json')
+                })
+                .fail(function () {
+                    self.formError = 'Ошибка отправки формы. Попробуйте еще раз.';
+                })
                 .always(function () {
                     self.submitting = false;
                 });

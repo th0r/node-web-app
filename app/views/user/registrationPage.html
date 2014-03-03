@@ -1,35 +1,33 @@
 {% extends 'layouts/default.html' %}
-        
-{% block appScripts %}
-    {% parent %}
-    {% script 'user/registration' %}
-{% endblock %}
+
+{% import 'macros/form.html' as form %}
 
 {% block content %}
-<form id="registrationForm" method="post" action="{{ registrationPath() | e }}" novalidate
+<form method="post" action="{{ registrationPath() | e }}" novalidate
+      v-component="registration-form"
+      v-with="registrationForm"
       v-on="submit: submit">
     <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email"
-               v-model="fields.email"
-               v-class="error: fieldErrors.email">
-        <div class="error-message" v-if="fieldErrors.email" v-text="fieldErrors.email"></div>
+        {{ form.input('Email', 'email', '', { type: 'email', autocomplete: true }) }}
     </div>
     <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password"
-               v-model="fields.password"
-               v-class="error: fieldErrors.password">
-        <div class="error-message" v-if="fieldErrors.password" v-text="fieldErrors.password"></div>
+        {{ form.input('Пароль', 'password', '', { type: 'password' }) }}
     </div>
-    <div class="error-message" v-if="formError" v-text="formError"></div>
+    {{ form.error() }}
     <div>
-        <button v-attr="disabled: !submittionAllowed">Register</button>
+        <button type="submit"
+                v-attr="disabled: !submittionAllowed">Зарегистрироваться</button>
     </div>
 </form>
+{% endblock %}
+
+{% block pageScript %}
 <script>
-    App.registrationForm = {
-        el: '#registrationForm'
-    };
+    App.page = new Vue({
+        el: document.documentElement,
+        data: {
+            registrationForm: {}
+        }
+    });
 </script>
 {% endblock %}
