@@ -4,6 +4,11 @@
 {% set pageType = 'users' %}
 {% set hideHeader = !user %}
 
+{% block vendorScripts %}
+    {% parent %}
+    {% script 'vendor' 'jquery.select2' %}
+{% endblock %}
+
 {% block navLineItems %}
     {{ navLineItem('Пользователи', adminUsersPath()) }}
     {% if user %}
@@ -37,6 +42,20 @@
                             {{ form.input('Email', 'email', user.email, { type: 'email' }) }}
                         </div>
 
+                        <div class="control-group">
+                            <label for="roles" class="control-label">Роли:</label>
+                            <div class="controls">
+                                <select id="roles" name="roles" data-placeholder="Выберите роли пользователя..." class="select" multiple="multiple">
+                                    <option value=""></option>
+                                    {% for role in rolesList %}
+                                        <option value="{{ role }}"
+                                                {%- if user.hasRoles(role) %} selected{% endif %}>{{ role }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="error-message" v-cloak v-if="fieldErrors." v-text="fieldErrors.{{ name }}"></div>
+                        </div>
+
                         <div class="form-actions align-center">
                             <button type="submit" class="btn btn-primary"
                                     v-attr="disabled: !submittionAllowed">Сохранить</button>
@@ -55,6 +74,10 @@
 
 {% block pageScript %}
 <script>
+    $('#roles').select2({
+        allowClear: true
+    });
+
     App.page = new Vue({
         el: document.documentElement,
         data: {

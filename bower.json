@@ -13,7 +13,8 @@
         "bootstrap": "~3.1.1",
         "jquery.collapsible": "collapsible#~1.2.1",
         "jquery.uniform": "~2.1.2",
-        "jquery.datatables": "datatables#~1.9.4"
+        "jquery.datatables": "datatables#~1.9.4",
+        "jquery.select2": "select2#~3.4.5"
     },
     "overrides": {
         "bootstrap": {
@@ -30,6 +31,9 @@
         },
         "jquery.datatables": {
             "main": "media/js/jquery.dataTables.js"
+        },
+        "jquery.select2": {
+            "main": "select2.js"
         }
     },
     "resolutions": {

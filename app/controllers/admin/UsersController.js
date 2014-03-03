@@ -71,6 +71,7 @@ extend(AdminUsersController, AdminController, {
         Q(user)
             .then(function (user) {
                 self.user = user;
+                self.rolesList = ['admin', 'suka'];
                 self.render('editUser');
             })
             .fail(function (err) {
