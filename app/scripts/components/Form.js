@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var $ = require('jquery');
 var Vue = require('vue');
 
@@ -40,55 +41,37 @@ var Form = Vue.extend({
                 return;
             }
 
-            var self = this;
-            var form = event.target;
             var validationErrors = this.validationErrors;
 
-            self.formError = null;
+            this.formError = null;
             if (this._hasValidationErrors(validationErrors)) {
                 this.fieldErrors = validationErrors;
                 return;
             }
-            self.fieldErrors = {};
+            this.fieldErrors = {};
 
-            this.submitting = true;
-            $.ajax(
-                {
-                    url: form.action,
-                    method: form._method ? form._method.value : form.method,
-                    data: this.fields,
-                    dataType: 'json'
-                })
-                .done(function (result) {
-                    var successMessage;
-                    var error = result.error;
-
-                    if (error) {
-                        self.formError = error.message;
-                        self.fieldErrors = error.details || {};
-
-                        return;
-                    }
-
-                    successMessage = self._getSuccessMessage(result);
-                    if (successMessage) {
-                        self.showSuccessMessage(successMessage);
-                    }
-
-                    if (result.redirectTo) {
-                        location.href = result.redirectTo;
-                    }
-                })
-                .fail(function () {
-                    self.formError = 'Ошибка отправки формы. Попробуйте еще раз.';
-                })
-                .always(function () {
-                    self.submitting = false;
-                });
+            this._sendRequest({
+                data: this.fields
+            });
         },
 
         validate: function () {
             this.fieldErrors = this.validationErrors || {};
+        },
+
+        remove: function (event) {
+            event.preventDefault();
+
+            if (!this.submittionAllowed) {
+                return;
+            }
+
+            this.formError = null;
+            this.fieldErrors = {};
+
+            this._sendRequest({
+                method: 'delete'
+            });
         },
 
         showSuccessMessage: function (message) {
@@ -115,6 +98,47 @@ var Form = Vue.extend({
 
         _getSuccessMessage: function (responseResult) {
             return responseResult.message;
+        },
+
+        _sendRequest: function (ajaxOpts) {
+            var self = this;
+            var form = this.$el;
+
+            ajaxOpts = _.clone(ajaxOpts);
+
+            ajaxOpts.url = ajaxOpts.url || form.action;
+            ajaxOpts.method = ajaxOpts.method || (form._method ? form._method.value : form.method);
+            ajaxOpts.type = 'json';
+
+            this.submitting = true;
+
+            return $.ajax(ajaxOpts)
+                .done(function (result) {
+                    var successMessage;
+                    var error = result.error;
+
+                    if (error) {
+                        self.formError = error.message;
+                        self.fieldErrors = error.details || {};
+
+                        return;
+                    }
+
+                    successMessage = self._getSuccessMessage(result);
+                    if (successMessage) {
+                        self.showSuccessMessage(successMessage);
+                    }
+
+                    if (result.redirectTo) {
+                        location.href = result.redirectTo;
+                    }
+                })
+                .fail(function () {
+                    self.formError = 'Ошибка отправки запроса. Попробуйте еще раз.';
+                })
+                .always(function () {
+                    self.submitting = false;
+                });
         }
 
     }

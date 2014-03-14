@@ -105,9 +105,25 @@ extend(AdminUsersController, AdminController, {
                     message: 'Учетная запись пользователя успешно изменена'
                 });
             })
-            .fail(function (err) {
+            .catch(function (err) {
                 self.jsonError(err);
             });
+    },
+
+    destroy: function () {
+        var self = this;
+        var userId = this.req.params.id;
+
+        Q(User.findByIdAndRemove(userId).exec())
+            .then(function () {
+                self.res.json({
+                    message: 'Учетная запись пользователя успешно удалена',
+                    redirectTo: self.adminUsersPath()
+                });
+            })
+            .catch(function (err) {
+                self.jsonError(err);
+            })
     }
 
 });

@@ -61,6 +61,10 @@
                                     v-attr="disabled: !submittionAllowed">Сохранить</button>
                             <button type="reset" class="btn"
                                     v-attr="disabled: submitting">Сбросить изменения</button>
+                            <button type="button" class="btn btn-danger"
+                                    v-on="click: remove"
+                                    v-attr="disabled: submitting">Удалить пользователя
+                            </button>
                         </div>
 
                     </div>
