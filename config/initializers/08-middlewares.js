@@ -12,7 +12,9 @@ module.exports = function () {
     if (isProd) {
         // GZip compression. Better to do with "nginx" or something else.
         // this.use(express.compress());
-    } else {
+    }
+
+    if (!isProd) {
         this.use(express.logger());
     }
 

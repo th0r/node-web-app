@@ -7,10 +7,16 @@ var port = process.env.PORT || (process.env.NODE_ENV === 'production' ? 80 : 300
 // controllers and views.  Move (or remove) these lines at your own peril.
 app.phase(function () {
     // Use custom view and controller resolvers
-    this.controllers.resolve.use(require('./app/resolvers/controller')(__dirname + '/app/controllers'));
-    this.views.resolve.use(require('./app/resolvers/view'));
+    this.controllers.resolve.use(
+        require('./config/utils/resolvers/controller')(__dirname + '/app/controllers')
+    );
+    this.views.resolve.use(
+        require('./config/utils/resolvers/view')
+    );
     // Use custom controller instantiator
-    this.controllers.instantiate.use(require('./app/instantiators/controller'));
+    this.controllers.instantiate.use(
+        require('./config/utils/instantiators/controller')
+    );
 });
 
 // Add phases to configure environments, run initializers, draw routes, and
