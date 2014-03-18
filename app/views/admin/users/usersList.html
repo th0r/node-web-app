@@ -9,15 +9,12 @@
 
 {% block navLine %}{% endblock %}
 
-{% block header %}
-    {{ header('Пользователи', 'Список зарегистрированных пользователей') }}
-{% endblock %}
+{% block headerTitle %}Пользователи{% endblock %}
+{% block headerDescription %}Список зарегистрированных пользователей{% endblock %}
 
 {% block content %}
+    <a href="{{ newAdminUserPath() | e}}">Создать нового пользователя</a>
     <div class="widget">
-        <div class="navbar">
-            <div class="navbar-inner"><h6>Пользователи</h6></div>
-        </div>
         <div class="table-overflow">
             <table id="usersTable" class="table table-striped table-bordered"></table>
         </div>
@@ -43,7 +40,10 @@
                     {
                         sName: 'roles',
                         sTitle: 'Роли',
-                        mData: 'roles'
+                        mData: 'roles',
+                        mRender: function (roles) {
+                            return roles.sort().join(', ');
+                        }
                     }
                 ]
             });

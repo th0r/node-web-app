@@ -1,5 +1,4 @@
 {% extends 'admin/layouts/default.html' %}
-{% import 'admin/macros/form.html' as form %}
 
 {% set pageType = 'users' %}
 {% set hideHeader = !user %}
@@ -19,58 +18,11 @@
 {% endblock %}
 
 {% block headerTitle %}Пользователь <span v-text="userForm.fields.email || '...'">{{ user.email }}</span>{% endblock %}
-{% block headerDescription %}Редактирование учетной записи пользователя</span>{% endblock %}
+{% block headerDescription %}Редактирование учетной записи пользователя{% endblock %}
 
 {% block content %}
     {% if user %}
-        <form class="form-horizontal" action="{{ adminUserPath(user) | e }}" method="post" novalidate
-              v-component="edit-user-form"
-              v-with="userForm"
-              v-on="submit: submit">
-            <input type="hidden" name="_method" value="put">
-            <fieldset>
-                <div class="widget row-fluid">
-                    <div class="well">
-                        {{ form.success() }}
-                        {{ form.error() }}
-
-                        <div class="control-group">
-                            {{ form.input('ID', '_id', user._id.toString(), { readonly: true }) }}
-                        </div>
-
-                        <div class="control-group">
-                            {{ form.input('Email', 'email', user.email, { type: 'email' }) }}
-                        </div>
-
-                        <div class="control-group">
-                            <label for="roles" class="control-label">Роли:</label>
-                            <div class="controls">
-                                <select id="roles" name="roles" data-placeholder="Выберите роли пользователя..." class="select" multiple="multiple">
-                                    <option value=""></option>
-                                    {% for role in rolesList %}
-                                        <option value="{{ role }}"
-                                                {%- if user.hasRoles(role) %} selected{% endif %}>{{ role }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="error-message" v-cloak v-if="fieldErrors." v-text="fieldErrors.{{ name }}"></div>
-                        </div>
-
-                        <div class="form-actions align-center">
-                            <button type="submit" class="btn btn-primary"
-                                    v-attr="disabled: !submittionAllowed">Сохранить</button>
-                            <button type="reset" class="btn"
-                                    v-attr="disabled: submitting">Сбросить изменения</button>
-                            <button type="button" class="btn btn-danger"
-                                    v-on="click: remove"
-                                    v-attr="disabled: submitting">Удалить пользователя
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+        {% include 'admin/users/userForm.html' %}
     {% else %}
         <div class="alert sans align-center margin">Пользователь не найден</div>
     {% endif %}
@@ -78,10 +30,6 @@
 
 {% block pageScript %}
 <script>
-    $('#roles').select2({
-        allowClear: true
-    });
-
     App.page = new Vue({
         el: document.documentElement,
         data: {

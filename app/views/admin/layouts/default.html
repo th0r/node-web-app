@@ -116,19 +116,6 @@
             {% endblock %}
             <!-- /page header -->
 
-            {% for message in flash.success %}
-                <div class="alert alert-success">
-                    <button data-dismiss="alert" class="close" type="button">×</button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% for message in flash.error %}
-                <div class="alert alert-error">
-                    <button data-dismiss="alert" class="close" type="button">×</button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-
             {% block content %}{% endblock %}
 
         </div>

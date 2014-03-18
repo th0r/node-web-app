@@ -2,7 +2,7 @@ var $ = require('jquery');
 var Form = require('../Form');
 var CustomEvent = require('../../utils/CustomEvent');
 
-var EditUserForm = Form.extend({
+var NewUserForm = Form.extend({
 
     ready: function () {
         // BUGFIX: ready вызывается 2 раза
@@ -41,6 +41,10 @@ var EditUserForm = Form.extend({
                 errors.email = 'Введите email';
             }
 
+            if (!fields.password) {
+                errors.password = 'Введите пароль';
+            }
+
             return errors;
         }
 
@@ -48,6 +52,6 @@ var EditUserForm = Form.extend({
 
 });
 
-EditUserForm.componentName = 'edit-user-form';
+NewUserForm.componentName = 'new-user-form';
 
-module.exports = EditUserForm;
+module.exports = NewUserForm;

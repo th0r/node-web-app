@@ -7,6 +7,8 @@ var BadRequestError = passportLocal.BadRequestError;
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
 
+var ROLES = ['admin', 'moderator'];
+
 var ERRORS = {
     EMAIL_IS_REQUIRED: 'Email обязателен',
     INVALID_EMAIL: 'Некорректный email',
@@ -15,7 +17,8 @@ var ERRORS = {
     USER_NOT_FOUND: 'Пользователь с таким email-ом не найден',
     USER_ALREADY_EXIST: 'Пользователь с таким email-ом уже зарегистрирован',
     INVALID_PASSWORD: 'Пароль должен состоять минимум из 6 знаков',
-    INVALID_ROLE: 'Роль "{VALUE}" не существует'
+    ROLES_CANT_REPEAT: 'Роли не должны повторяться',
+    INVALID_ROLES: 'Роли должны принимать одно из следующих значений: ' + ROLES.join(', ')
 };
 
 var User = new Schema({
@@ -27,19 +30,26 @@ var User = new Schema({
         unique: [true, ERRORS.USER_ALREADY_EXIST]
     },
 
-    roles: [{
-        type: String,
-        enum: {
-            values: ['admin'],
-            message: ERRORS.INVALID_ROLE
-        }
-    }],
+    roles: [String],
 
     hash: {
         type: String
     }
 
 });
+
+User.path('roles')
+    .set(function (roles) {
+        return roles || [];
+    })
+    .validate(function (roles) {
+        return roles.length === _.uniq(roles).length;
+    }, ERRORS.ROLES_CANT_REPEAT)
+    .validate(function (roles) {
+        return roles.every(function (role) {
+            return ROLES.indexOf(role) >= 0;
+        });
+    }, ERRORS.INVALID_ROLES);
 
 User.static({
 
@@ -146,6 +156,10 @@ User.static({
                     });
                 });
         });
+    },
+
+    listRoles: function () {
+        return ROLES;
     }
 
 });

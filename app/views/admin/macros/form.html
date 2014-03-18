@@ -13,13 +13,15 @@
 {%- endmacro %}
 
 {% macro input(label, name, value, attrs) %}
-<label for="{{ attrs.id || name }}" class="control-label">{{ label }}:</label>
-<div class="controls">
-    <input id="{{ attrs.id || name }}" name="{{ name }}" type="{{ attrs.type || 'text' }}" class="span12" value="{{ value }}" autocomplete="off"
-           {%- if attrs.readonly %} readonly{% endif %}
-           v-model="fields.{{ name }}"
-           v-class="error: fieldErrors.{{ name }}"
-    />
-    <div class="error-message" v-cloak v-if="fieldErrors.{{ name }}" v-text="fieldErrors.{{ name }}"></div>
+<div class="control-group" v-class="error: fieldErrors.{{ name }}">
+    <label for="{{ attrs.id || name }}" class="control-label">{{ label }}:</label>
+    <div class="controls">
+        <input id="{{ attrs.id || name }}" name="{{ name }}" type="{{ attrs.type || 'text' }}" class="span12" value="{{ value }}" autocomplete="off"
+               {%- if attrs.readonly %} readonly{% endif %}
+               v-model="fields.{{ name }}"
+               v-class="error: fieldErrors.{{ name }}"
+        />
+        <span class="help-block" v-cloak v-if="fieldErrors.{{ name }}" v-text="fieldErrors.{{ name }}"></span>
+    </div>
 </div>
 {% endmacro %}

@@ -64,6 +64,11 @@ extend(AdminUsersController, AdminController, {
             .fail(this.jsonError.bind(this));
     },
 
+    new: function () {
+        this.rolesList = User.listRoles();
+        this.render('newUser');
+    },
+
     edit: function () {
         var self = this;
         var user = User.findById(this.req.params.id).exec();
@@ -71,7 +76,7 @@ extend(AdminUsersController, AdminController, {
         Q(user)
             .then(function (user) {
                 self.user = user;
-                self.rolesList = ['admin', 'suka'];
+                self.rolesList = User.listRoles();
                 self.render('editUser');
             })
             .fail(function (err) {
@@ -79,19 +84,40 @@ extend(AdminUsersController, AdminController, {
             });
     },
 
+    create: function () {
+        var self = this;
+        var body = this.req.body;
+        var user = new User({
+            email: body.email,
+            // BUGFIX: Setter не вызывается, если значение === undefined
+            // https://github.com/LearnBoost/mongoose/issues/1892
+            roles: body.roles || []
+        });
+
+        Q.ninvoke(User, 'register', user, body.password)
+            .then(function (user) {
+                self.res.json({
+                    message: 'Учетная запись пользователя успешно создана',
+                    redirectTo: self.editAdminUserPath(user)
+                });
+            })
+            .catch(function (err) {
+                self.jsonError(err);
+            });
+    },
+
     update: function () {
         var self = this;
-        var userId;
 
         Q(User.findById(this.req.params.id).exec())
             .then(function (user) {
                 if (user) {
                     var params = self.req.body || {};
 
-                    userId = String(user._id);
-
                     // Do not allow to change user's password
                     delete params.hash;
+                    // Remove user roles if needed
+                    params.roles = params.roles || [];
 
                     user.set(params);
 

@@ -1,0 +1,62 @@
+{% import 'admin/macros/form.html' as form %}
+
+<form class="form-horizontal" novalidate method="post"
+      action="{% if user %}{{ adminUserPath(user) | e }}{% else %}{{ adminUsersPath() | e }}{% endif %}"
+      v-component="{% if user %}edit-user-form{% else %}new-user-form{% endif %}"
+      v-with="userForm"
+      v-on="submit: submit">
+    {% if user %}
+        <input type="hidden" name="_method" value="put">
+    {% endif %}
+    <fieldset>
+        <div class="widget row-fluid">
+            <div class="well">
+                {{ form.success() }}
+                {{ form.error() }}
+
+                {% if user %}
+                    {{ form.input('ID', '_id', user._id.toString(), { readonly: true }) }}
+                {% endif %}
+
+                {{ form.input('Email', 'email', user.email || '', { type: 'email' }) }}
+
+                {% if !user %}
+                    {{ form.input('Пароль', 'password', user.password || '', { type: 'password' }) }}
+                {% endif %}
+
+                <div class="control-group" v-class="error: fieldErrors.roles">
+                    <label for="roles" class="control-label">Роли:</label>
+                    <div class="controls">
+                        <select id="roles" name="roles" data-placeholder="Выберите роли пользователя..."
+                                class="select"
+                                multiple="multiple"
+                                autocomplete="off"
+                                style="height: 50px"
+                                v-model="fields.roles">
+                            <!--<option value=""></option>-->
+                            {% for role in rolesList %}
+                                <option value="{{ role }}"
+                                        {%- if user.hasRoles(role) %} selected{% endif %}>{{ role }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="help-block" v-cloak v-if="fieldErrors.roles" v-text="fieldErrors.roles"></span>
+                    </div>
+                </div>
+
+                <div class="form-actions align-center">
+                    <button type="submit" class="btn btn-primary"
+                            v-attr="disabled: !submittionAllowed">{% if user %}Сохранить{% else %}Создать{% endif %}</button>
+                    <button type="reset" class="btn"
+                            v-attr="disabled: submitting">Сбросить изменения</button>
+                    {% if user %}
+                        <button type="button" class="btn btn-danger"
+                                v-on="click: remove"
+                                v-attr="disabled: submitting">Удалить пользователя
+                        </button>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+</form>

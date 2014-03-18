@@ -1,0 +1,33 @@
+{% extends 'admin/layouts/default.html' %}
+
+{% set pageType = 'users' %}
+
+{% block vendorScripts %}
+    {% parent %}
+    {% script 'vendor' 'jquery.select2' %}
+{% endblock %}
+
+{% block navLineItems %}
+    {{ navLineItem('Пользователи', adminUsersPath()) }}
+{% endblock %}
+
+{% block headerTitle %}Создание новой учетной записи{% endblock %}
+
+{% block content %}
+    {% include 'admin/users/userForm.html' %}
+{% endblock %}
+
+{% block pageScript %}
+<script>
+    $('#roles').select2({
+        allowClear: true
+    });
+
+    App.page = new Vue({
+        el: document.documentElement,
+        data: {
+            userForm: {}
+        }
+    });
+</script>
+{% endblock %}
