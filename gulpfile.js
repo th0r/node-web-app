@@ -3,7 +3,7 @@ var spawn = require('child_process').spawn;
 var pkg = require('./package.json');
 var gulp = require('gulp');
 var es = require('event-stream');
-var util = require('gulp-util');
+var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var rename = require('gulp-rename');
 var clean = require('gulp-clean');
@@ -17,7 +17,7 @@ var csso = require('gulp-csso');
 var concatCSS = require('gulp-concat-css');
 var imagemin = require('gulp-imagemin');
 var nodemon = require('nodemon');
-var isProd = util.env.production;
+var isProd = gutil.env.production || (process.env.NODE_ENV === 'production' && !gutil.env.dev);
 
 exposify.config = {
     jquery: '$',
@@ -84,9 +84,9 @@ gulp.task('server', ['build'], function () {
         gulp.watch(src.styles.vendor, ['styles.vendor']);
 
         // Making node debug arguments
-        if (util.env['debug-brk']) {
+        if (gutil.env['debug-brk']) {
             nodeDebugArgs = ['--debug-brk'];
-        } else if (util.env.debug) {
+        } else if (gutil.env.debug) {
             nodeDebugArgs = ['--debug'];
         }
 
@@ -121,7 +121,7 @@ gulp.task('server', ['build'], function () {
 gulp.task('build', ['scripts', 'assets'], function () {
     if (isProd) {
         // Pre-gzipping assets
-        util.log('Pre-compressing static files...');
+        gutil.log('Pre-compressing static files...');
 
         return gulp
             .src('**/*.{js,css,ttf,svg}', {
@@ -130,7 +130,7 @@ gulp.task('build', ['scripts', 'assets'], function () {
             .pipe(gzip())
             .pipe(gulp.dest('public'))
             .on('end', function () {
-                util.log('Static files have been precompressed');
+                gutil.log('Static files have been precompressed');
             });
     }
 });
@@ -150,7 +150,7 @@ gulp.task('scripts.app', ['clean.scripts.app'], function () {
             transform: [exposify],
             debug: !isProd
         }))
-        .pipe(isProd ? uglify() : util.noop())
+        .pipe(isProd ? uglify() : gutil.noop())
         .pipe(gulp.dest(dest.scripts.app));
 });
 
@@ -205,7 +205,7 @@ gulp.task('styles.app', ['clean.styles.app'], function () {
             use: ['nib'],
             set: ['resolve url', 'include css'].concat(isProd ? [] : ['linenos'])
         })))
-        .pipe(isProd ? csso() : util.noop())
+        .pipe(isProd ? csso() : gutil.noop())
         .pipe(gulp.dest(dest.assets.app));
 });
 
@@ -215,7 +215,7 @@ gulp.task('styles.vendor', ['clean.styles.vendor'], function () {
     if (files.length) {
         return gulp
             .src(files)
-            .pipe(isProd ? csso() : util.noop())
+            .pipe(isProd ? csso() : gutil.noop())
             .pipe(gulp.dest(dest.assets.vendor));
     }
 });
@@ -262,7 +262,7 @@ gulp.task('img.app', ['clean.styles.app'], function () {
     if (files.length) {
         return gulp
             .src(src.img.app)
-            .pipe(isProd ? imagemin() : util.noop())
+            .pipe(isProd ? imagemin() : gutil.noop())
             .pipe(gulp.dest(dest.assets.app));
     }
 });
