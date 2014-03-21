@@ -2,17 +2,17 @@ var _ = require('lodash');
 var Q = require('q');
 var extend = require('../../utils/extend');
 var escapeRegexp = require('../../utils/escape').regexp;
-var AdminController = require('./AdminController');
+var SpaController = require('./SpaController');
 var User = require('../../models/User');
 
-var AdminUsersController = function () {
-    AdminController.call(this);
-};
+function AdminUsersController() {
+    SpaController.call(this);
+}
 
-extend(AdminUsersController, AdminController, {
+extend(AdminUsersController, SpaController, {
 
     index: function () {
-        this.render('usersList');
+        return ['User 1', 'User 2'];
     },
 
     table: function () {

@@ -12,6 +12,10 @@ var ApplicationController = function () {
 extend(ApplicationController, Controller, {
 
     jsonError: function (err) {
+        this.res.json(this.makeJsonErrorObj(err));
+    },
+
+    makeJsonErrorObj: function (err) {
         var error = {};
 
         if (err instanceof ValidationError) {
@@ -26,9 +30,9 @@ extend(ApplicationController, Controller, {
             error.message = err.message || 'Неизвестная ошибка';
         }
 
-        this.res.json({
+        return {
             error: error
-        });
+        };
     }
 
 });
